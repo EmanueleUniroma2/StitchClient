@@ -4,27 +4,57 @@ var singletonRegisteredEventListeners = [];
 
 
 const languagePack = [
-  "en":{
+    "en": {
 
-  },
-  "it":{
+    },
+    "it": {
+        "close": "Chiudi",
+        "no": "No",
+        "yes": "Si",
+        "cancel": "Annulla",
+        "proceed": "Procedi",
+        "message_from_site": "Messaggio dal sito",
+        "site_err_occupied": "Il sito era momentaneamente occupato e non ha potuto gestire la richiesta. Fare un altro tentativo dovrebbe risolvere il problema.",
+        "site_err_credentials": "Sono state fornite credenziali errate, oppure non esiste un account associato a queste credenziali.",
+        "site_err_password_size": "La password deve essere lunga tra 6 e 128 caratteri.",
+        "site_err_user_already_exists": "Esiste già un utente registrato con questa email.",
+        "site_err_invalid_token": "Token non valido. Ripetere la procedura.",
+        "site_err_email_already_registered": "Questa email è associata ad un account già correttamente registrato.",
+        "site_err_expired_token": "Il token di accesso è scaduto o invalido.",
+        "site_err_user_not_exists": "L'email indicata non è associata ad alcun utente registrato.",
+        "site_err_bad_request": "La chiamata API che si è tentata era mal strutturata.",
+        "site_err_unknown_error": "Errore sconosciuto",
+        "confirm_leave_page": "Sei sicuro di voler cambiare pagina? Il lavoro non salvato andrà perduto.",
+        "page_does_not_exists": "La pagina a cui vuoi accedere non esiste.",
+        "page_does_not_exists_or_requires_login": "La pagina a cui vuoi accedere è riservata agli utenti registrati, oppure non esiste.",
+        "suggest_login_1": "Se possiedi un account registrato, puoi accedere tramite la",
+        "suggest_login_2": "pagina di accesso.",
+        "account_confirmed": "Il tuo account è stato confermato con successo.",
+        "password_cannot_be_empty": "Il campo Password non può essere vuoto.",
+        "password_mismatch": "Le due password non coincidono.",
+        "password_resetted": "Password reimpostata con successo.",
+        "email_cannot_be_empty": "Il campo Email non può essere vuoto,",
+        "email_must_be_valid": "Il campo Email deve contenere un indirizzo email valido.",
+        "register_email_sent": "Abbiamo inviato una email di conferma al tuo indirizzo. Clicca nel link dell'email per completare la registrazione.",
+        "reset_email_sent": "Abbiamo inviato una email di reset password al tuo indirizzo. Clicca nel link dell'email per completare il reset della password.",
+        "sync_data": "Sincronizzazione dati...",
+        "err_sync_data": "Impossibile caricare i dati..."
+    },
+    "sp": {
 
-  },
-  "sp":{
-
-  }
+    }
 ]
 
 const frameworkSystemSettings = {
-  "language": "it"
+    "language": "it"
 };
 
-function getTranslatedMessage(id){
-  let msg = languagePack[frameworkSystemSettings["language"]][id];
-  if(isVoidString(msg)){
-    return "?";
-  }
-  return msg;
+function getTranslatedMessage(id) {
+    let msg = languagePack[frameworkSystemSettings["language"]][id];
+    if (isVoidString(msg)) {
+        return "?";
+    }
+    return msg;
 }
 
 const Stitch_FrameWork_EmbeddedStyles = `
@@ -506,13 +536,13 @@ background: rgba(0,0,0,0.2);
 `;
 
 function navigate(page) {
-    if(!isNullOrUndefined(lastInitedAppClient)){
-      lastInitedAppClient.setNavigation(page);
+    if (!isNullOrUndefined(lastInitedAppClient)) {
+        lastInitedAppClient.setNavigation(page);
     }
 }
 
-function getZombieStitchClient(){
-  return getStitchAppClient("zombie","zombie");
+function getZombieStitchClient() {
+    return getStitchAppClient("zombie", "zombie");
 }
 
 function getStitchAppClient(app_name, db_name) {
@@ -566,12 +596,12 @@ function storageRemoveItem(collection, name) {
     }
 }
 
-function storageRemoveAnyItemsStartingWith(prefix){
-  Object.keys(localStorage).forEach(function(key) {
-      if (key.substring(0, prefix.length) == prefix) {
-        localStorage.removeItem(key);
-      }
-  });
+function storageRemoveAnyItemsStartingWith(prefix) {
+    Object.keys(localStorage).forEach(function(key) {
+        if (key.substring(0, prefix.length) == prefix) {
+            localStorage.removeItem(key);
+        }
+    });
 }
 
 function storageGetAnyItemStartingWith(prefix) {
@@ -605,11 +635,10 @@ function storageSetItem(collection, name, value) {
 
     if (!isVoidString(collection)) {
 
-        if(isInsertion){
-          lastInitedAppClient.bewareStorageInsertion(collection, name, value);
-        }
-        else{
-          lastInitedAppClient.bewareStorageUpdate(collection, name, value);
+        if (isInsertion) {
+            lastInitedAppClient.bewareStorageInsertion(collection, name, value);
+        } else {
+            lastInitedAppClient.bewareStorageUpdate(collection, name, value);
         }
     }
 }
@@ -670,8 +699,8 @@ function showBreadCrumb(msg) {
 
     let timeout = 80 * msg.length;
 
-    if(timeout < 3000){
-      timeout = 3000;
+    if (timeout < 3000) {
+        timeout = 3000;
     }
 
     let d = document.createElement("div");
@@ -752,39 +781,39 @@ class StitchServerClient {
         this.app_name = app_name;
         this.db_name = db_name;
 
-        if(app_name != "zombie" && db_name != "zombie"){
-          this.stitch_actual_client = stitch.Stitch.initializeDefaultAppClient(this.app_name);
-          this.reference_to_mongo_db = this.stitch_actual_client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db(this.db_name);
-          this.profileProvider = this.stitch_actual_client.auth.getProviderClient(stitch.UserPasswordAuthProviderClient.factory, "local-userpass");
+        if (app_name != "zombie" && db_name != "zombie") {
+            this.stitch_actual_client = stitch.Stitch.initializeDefaultAppClient(this.app_name);
+            this.reference_to_mongo_db = this.stitch_actual_client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db(this.db_name);
+            this.profileProvider = this.stitch_actual_client.auth.getProviderClient(stitch.UserPasswordAuthProviderClient.factory, "local-userpass");
         }
     }
 
-    async pause(milliseconds){
-      return new Promise(resolve => setTimeout(resolve, milliseconds))
+    async pause(milliseconds) {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
 
     // function to get lock on api service
-    async getApiLock(){
-      let max_retry = 5;
-      while(this.alreadyServing && max_retry > 0){
-        await this.pause(500);
-        max_retry--;
-      }
-      console.log("Given lock");
-      this.alreadyServing = true;
-      return true;
+    async getApiLock() {
+        let max_retry = 5;
+        while (this.alreadyServing && max_retry > 0) {
+            await this.pause(500);
+            max_retry--;
+        }
+        console.log("Given lock");
+        this.alreadyServing = true;
+        return true;
     }
 
     // unlock api
-    apiUnlock(){
-      console.log("Released lock");
-      this.alreadyServing = false;
+    apiUnlock() {
+        console.log("Released lock");
+        this.alreadyServing = false;
     }
 
     // unlock api
-    apiLock(){
-      console.log("Force given lock");
-      this.alreadyServing = true;
+    apiLock() {
+        console.log("Force given lock");
+        this.alreadyServing = true;
     }
 
     /*
@@ -1311,35 +1340,36 @@ class StitchServerClient {
         let search_keys;
 
         // different handling based on input structure
-        if(Array.isArray(data)){
+        if (Array.isArray(data)) {
 
-              /*
-                Should be something like
-                {user_id: this.stitch_actual_client.auth.user.id} ,
-                {$set:{data:data, data2:data2, etc...}},
-                {upsert:true}
-              */
-              patch_arguments = { $set: {} };
-              for(let i = 0; i < data.length; i++){
+            /*
+              Should be something like
+              {user_id: this.stitch_actual_client.auth.user.id} ,
+              {$set:{data:data, data2:data2, etc...}},
+              {upsert:true}
+            */
+            patch_arguments = {
+                $set: {}
+            };
+            for (let i = 0; i < data.length; i++) {
                 let el = data[i];
                 patch_arguments["$set"][el[0]] = el[1];
-              }
+            }
 
-        }
-        else{
+        } else {
 
-          if(isNullOrUndefined(data["data_id"])){
-            console.error("reference_to_mongo_db.patchInCollection: data must have a 'data_id' field", data);
-            return "bad argument";
-          }
+            if (isNullOrUndefined(data["data_id"])) {
+                console.error("reference_to_mongo_db.patchInCollection: data must have a 'data_id' field", data);
+                return "bad argument";
+            }
 
-          patch_arguments = {
-              $set: data
-          };
+            patch_arguments = {
+                $set: data
+            };
 
-          search_keys = {
-              data_id: data["data_id"]
-          };
+            search_keys = {
+                data_id: data["data_id"]
+            };
         }
 
         await this.getApiLock();
@@ -1353,9 +1383,9 @@ class StitchServerClient {
             console.info("Tryng patchInCollection.");
             try {
                 result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).updateOne(search_keys,
-                  patch_arguments, {
-                    upsert: false
-                }));
+                    patch_arguments, {
+                        upsert: false
+                    }));
                 console.info("Done.");
             } catch (e) {
                 result = e;
@@ -1507,18 +1537,18 @@ class StitchAppClient {
     constructor(app_name, db_name) {
 
         if (isVoidString(app_name) || isVoidString(db_name)) {
-          return;
+            return;
         }
 
         this.server = new StitchServerClient(app_name, db_name)
     }
 
     // set the api spinnerStatus
-    allowApiSpinner(){
-      this.allowSpinnerWhenCallingAStitchApi = true;
+    allowApiSpinner() {
+        this.allowSpinnerWhenCallingAStitchApi = true;
     }
-    disableApiSpinner(){
-      this.allowSpinnerWhenCallingAStitchApi = false;
+    disableApiSpinner() {
+        this.allowSpinnerWhenCallingAStitchApi = false;
     }
 
     // set the page resized
@@ -1548,17 +1578,17 @@ class StitchAppClient {
         this.appPages = pages;
     }
 
-    loadFrameWorkDependancies(){
-      injectStitchClient();
-      injectStitchFrameworkCss();
+    loadFrameWorkDependancies() {
+        injectStitchClient();
+        injectStitchFrameworkCss();
     }
 
-    injectStitchClient(){
-      let node_string = '<script type="text/javascript" src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.9.0/stitch.js"></script>';
-      let script = document.createElement("script");
-      script.type = 'text/javascript';
-      script.src = "https://s3.amazonaws.com/stitch-sdks/js/bundles/4.9.0/stitch.js";
-      document.getElementsByTagName("head")[0].appendChild(script);
+    injectStitchClient() {
+        let node_string = '<script type="text/javascript" src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.9.0/stitch.js"></script>';
+        let script = document.createElement("script");
+        script.type = 'text/javascript';
+        script.src = "https://s3.amazonaws.com/stitch-sdks/js/bundles/4.9.0/stitch.js";
+        document.getElementsByTagName("head")[0].appendChild(script);
     }
 
     // inject embedded styles in the html
@@ -1597,8 +1627,8 @@ class StitchAppClient {
         return null;
     }
 
-    isLoggedIn(){
-      return this.server.isAuthenticated();
+    isLoggedIn() {
+        return this.server.isAuthenticated();
     }
 
     /* base open dialog class (this uses the embedded stitch styles) */
@@ -1607,22 +1637,22 @@ class StitchAppClient {
         let dialog_type = buttons;
 
         if (buttons == "alert") {
-            buttons = ["Chiudi"];
+            buttons = [getTranslatedMessage("close")];
         }
         if (buttons == "confirm") {
-            buttons = ["No", "Si"];
+            buttons = [getTranslatedMessage("no"), getTranslatedMessage("yes")];
         }
         if (buttons == "input") {
-            buttons = ["Annulla", "Procedi"];
+            buttons = [getTranslatedMessage("cancel"), getTranslatedMessage("proceed")];
         }
         if (isNullOrUndefined(title)) {
-            title = "Messaggio dal sito";
+            title = getTranslatedMessage("message_from_site");
         }
         if (isNullOrUndefined(text)) {
             text = "";
         }
         if (isNullOrUndefined(buttons)) {
-            buttons = ["Chiudi"];
+            buttons = [getTranslatedMessage("close")];
         }
         if (isNullOrUndefined(inputs)) {
             inputs = [];
@@ -1631,7 +1661,7 @@ class StitchAppClient {
             callbacks = [];
         }
         if (buttons.length == 0) {
-            buttons = ["Chiudi"];
+            buttons = [getTranslatedMessage("close")];
         }
 
         let inkdrop = document.createElement("div");
@@ -1681,8 +1711,8 @@ class StitchAppClient {
             button.setAttribute("onclick", callback_inline);
         }
 
-        if(!isNullOrUndefined(inner_node)){
-          document.getElementById("inner_node_section_stitch_dialog").appendChild(inner_node);
+        if (!isNullOrUndefined(inner_node)) {
+            document.getElementById("inner_node_section_stitch_dialog").appendChild(inner_node);
         }
 
         setTimeout(this.fadeInDialog, 50);
@@ -1695,7 +1725,7 @@ class StitchAppClient {
         let dialog = document.getElementById("modal_ink_drop");
 
         if (dialog_type == "confirm") {
-            this.lastDialogOutput = !(button_name.toLowerCase() == "no" || button_name.toLowerCase() == "cancel");
+            this.lastDialogOutput = !(button_name.toLowerCase() == getTranslatedMessage("no") || button_name.toLowerCase() == getTranslatedMessage("cancel"));
         } else {
             let inputs = document.getElementsByClassName("stitch_dialog_input");
             let values = [];
@@ -1710,19 +1740,19 @@ class StitchAppClient {
 
     /* some dialog shortcuts*/
     openInputDialog(body, inputs, callbacks) {
-        this.openDialog("Dati richiesti", body, "input", inputs, callbacks, null);
+        this.openDialog(getTranslatedMessage("required_data"), body, "input", inputs, callbacks, null);
     }
     openConfirmDialog(body, callbacks) {
-        this.openDialog("Confermare azione", body, "confirm", null, callbacks, null);
+        this.openDialog(getTranslatedMessage("confirm_action"), body, "confirm", null, callbacks, null);
     }
     openCustomNodeDialog(title, body, node) {
         this.openDialog(title, body, "alert", null, null, node);
     }
     openInfoDialog(body) {
-        this.openDialog("Informazione", body, "alert", null, null, null);
+        this.openDialog(getTranslatedMessage("information"), body, "alert", null, null, null);
     }
     openAlertDialog(body) {
-        this.openDialog("Nota", body, "alert", null, null, null);
+        this.openDialog(getTranslatedMessage("note"), body, "alert", null, null, null);
     }
 
     // used to print multiline html text without using stuff like "white-space:pre" (wich gives errors on IOS)
@@ -1752,13 +1782,13 @@ class StitchAppClient {
     // turn api spinner on-off
     toggleAPISpinner(toggle) {
 
-        if(!this.allowSpinnerWhenCallingAStitchApi){
-          return;
+        if (!this.allowSpinnerWhenCallingAStitchApi) {
+            return;
         }
 
-        if(!toggle && this.spinnerKeepUp > 0){
-          this.spinnerKeepUp = this.spinnerKeepUp - 1;
-          return;
+        if (!toggle && this.spinnerKeepUp > 0) {
+            this.spinnerKeepUp = this.spinnerKeepUp - 1;
+            return;
         }
 
         // add one instance of the API spinner IF no istance is currently running
@@ -1766,30 +1796,29 @@ class StitchAppClient {
 
             let spinner_backdrops = document.getElementsByClassName("stitch_api_spinner_backdrop");
 
-            if(spinner_backdrops.length == 0){
+            if (spinner_backdrops.length == 0) {
 
-              let spinner_backdrop = document.createElement("div");
-              spinner_backdrop.className = "stitch_api_spinner_backdrop";
-              document.body.appendChild(spinner_backdrop);
+                let spinner_backdrop = document.createElement("div");
+                spinner_backdrop.className = "stitch_api_spinner_backdrop";
+                document.body.appendChild(spinner_backdrop);
 
-              let spinner = document.createElement("div");
-              spinner.className = "stitch_api_spinner";
-              document.body.appendChild(spinner);
+                let spinner = document.createElement("div");
+                spinner.className = "stitch_api_spinner";
+                document.body.appendChild(spinner);
             }
         }
         // remove ANY instance of the API spinner
-        else
-        {
+        else {
             let spinner_backdrops = document.getElementsByClassName("stitch_api_spinner_backdrop");
-            for(let i = 0; i < spinner_backdrops.length;i++){
-              let backdrop = spinner_backdrops[i];
-              backdrop.parentElement.removeChild(backdrop);
+            for (let i = 0; i < spinner_backdrops.length; i++) {
+                let backdrop = spinner_backdrops[i];
+                backdrop.parentElement.removeChild(backdrop);
             }
 
             let spinners = document.getElementsByClassName("stitch_api_spinner");
-            for(let i = 0; i < spinners.length;i++){
-              let spinner = spinners[i];
-              spinner.parentElement.removeChild(spinner);
+            for (let i = 0; i < spinners.length; i++) {
+                let spinner = spinners[i];
+                spinner.parentElement.removeChild(spinner);
             }
         }
     }
@@ -1798,35 +1827,34 @@ class StitchAppClient {
     textForApiErrorCode(message) {
 
         if (message == undefined) {
-            return "Il sito era momentaneamente occupato e non ha potuto gestire la richiesta. Fare un altro tentativo dovrebbe risolvere il problema.";
+            return getTranslatedMessage("site_err_occupied");
         }
-
         if (message == "invalid username/password") {
-            return "Sono state fornite credenziali errate, oppure non esiste un account associato a queste credenziali.";
+            return getTranslatedMessage("site_err_credentials");
         }
         if (message == "password must be between 6 and 128 characters") {
-            return "La password deve essere lunga tra 6 e 128 caratteri.";
+            return getTranslatedMessage("site_err_password_size");
         }
         if (message == "name already in use") {
-            return "Esiste già un utente registrato con questa email.";
+            return getTranslatedMessage("site_err_user_already_exists");
         }
         if (message == "invalid token data") {
-            return "Token non valido. Ripetere la procedura.";
+            return getTranslatedMessage("site_err_invalid_token");
         }
         if (message == "already confirmed") {
-            return "Questa email è associata ad un account già correttamente registrato.";
+            return getTranslatedMessage("site_err_email_already_registered");
         }
         if (message == "userpass token is expired or invalid") {
-            return "Il token di accesso è scaduto o invalido.";
+            return getTranslatedMessage("site_err_expired_token");
         }
         if (message == "user not found") {
-            return "L'email indicata non è associata ad alcun utente registrato.";
+            return getTranslatedMessage("site_err_user_not_exists");
         }
         if (message == "bad argument") {
-            return "La chiamata API che si è tentata era mal strutturata.";
+            return getTranslatedMessage("site_err_bad_request");
         }
 
-        return "Errore sconosciuto (" + message + ")";
+        return getTranslatedMessage("site_err_unknown_error") + " (" + message + ")";
     }
 
     // handler for stitch errors
@@ -1913,7 +1941,7 @@ class StitchAppClient {
         }
 
         if (this.confirm_navigation_level == 1) {
-            this.openConfirmDialog("Sei sicuro di voler cambiare pagina? Il lavoro non salvato andrà perduto.", ["confirmPageNavigate", "abortPageNavigate"]);
+            this.openConfirmDialog(getTranslatedMessage("confirm_leave_page"), ["confirmPageNavigate", "abortPageNavigate"]);
         } else {
             this.pageNavigateInner();
         }
@@ -1973,21 +2001,21 @@ class StitchAppClient {
         if (this.server.isAuthenticated()) {
             last = this.betterAppendChild(p, this.betterCreateElement("div", [
                 ["className", "locked_page_label"],
-                ["innerHTML", "La pagina a cui vuoi accedere non esiste."]
+                ["innerHTML", getTranslatedMessage("page_does_not_exists")]
             ]));
         } else {
             last = this.betterAppendChild(p, this.betterCreateElement("div", [
                 ["className", "locked_page_label"],
-                ["innerHTML", "La pagina a cui vuoi accedere è riservata agli utenti registrati, oppure non esiste."]
+                ["innerHTML", getTranslatedMessage("page_does_not_exists_or_requires_login")]
             ]));
             last = this.betterAppendChild(p, this.betterCreateElement("div", [
                 ["className", "go_to_login_help"],
-                ["innerHTML", "Se possiedi un account registrato, puoi accedere tramite la"]
+                ["innerHTML", getTranslatedMessage("suggest_login_1")]
             ]));
             last = this.betterAppendChild(last, this.betterCreateElement("div", [
                 ["className", "go_to_login_link"],
-                ["innerHTML", "pagina di accesso."],
-                ["onclick", "navigate('"+this.appPages[0]["name"]+"')"]
+                ["innerHTML", getTranslatedMessage("suggest_login_2")],
+                ["onclick", "navigate('" + this.appPages[0]["name"] + "')"]
             ]));
         }
     }
@@ -2053,8 +2081,8 @@ class StitchAppClient {
 
         let el = document.createElement(type);
 
-        if(type.substring(0, "functionResult".length) == "functionResult"){
-          el.appendChild(window[type.split("-")[1]]());
+        if (type.substring(0, "functionResult".length) == "functionResult") {
+            el.appendChild(window[type.split("-")[1]]());
         }
 
         if (!isNullOrUndefined(moreFlags)) {
@@ -2264,47 +2292,47 @@ class StitchAppClient {
     /* exported functions from inner class */
     async confirmUser() {
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.confirmUser(), "Il tuo account è stato confermato con successo.");
+        return this.handleApiResult(await this.server.confirmUser(), getTranslatedMessage("account_confirmed"));
     }
     async resetPassword(password, password_2) {
 
         if (isVoidString(password)) {
-            this.openAlertDialog("Il campo Password non può essere vuoto");
+            this.openAlertDialog(getTranslatedMessage("password_cannot_be_empty"));
             return "error";
         }
 
         if (password != password_2) {
-            this.openAlertDialog("Le due password non coincidono.");
+            this.openAlertDialog(getTranslatedMessage("password_mismatch"));
             return "error";
         }
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.resetPassword(password), "Password reimpostata con successo.");
+        return this.handleApiResult(await this.server.resetPassword(password), getTranslatedMessage("password_resetted"));
     }
     async registerUser(email, password, password_2) {
 
         if (isVoidString(email)) {
-            this.openAlertDialog("Il campo Email non può essere vuoto");
+            this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
             return "error";
         }
 
         if (!validateEmail(email)) {
-            this.openAlertDialog("Il campo Email deve contenere un indirizzo email valido");
+            this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
             return "error";
         }
 
         if (isVoidString(password)) {
-            this.openAlertDialog("Il campo Password non può essere vuoto");
+            this.openAlertDialog(getTranslatedMessage("password_cannot_be_empty"));
             return "error";
         }
 
         if (password != password_2) {
-            this.openAlertDialog("Le due password non coincidono.");
+            this.openAlertDialog(getTranslatedMessage("password_mismatch"));
             return "error";
         }
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.registerUser(email.toLowerCase(), password), "Abbiamo inviato una email di conferma al tuo indirizzo. Clicca nel link dell'email per completare la registrazione.");
+        return this.handleApiResult(await this.server.registerUser(email.toLowerCase(), password), getTranslatedMessage("register_email_sent"));
     }
     async sendResetPasswordEmail(email) {
 
@@ -2313,32 +2341,32 @@ class StitchAppClient {
         }
 
         if (isVoidString(email)) {
-            this.openAlertDialog("Il campo Email non può essere vuoto");
+            this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
             return "error";
         }
 
         if (!validateEmail(email)) {
-            this.openAlertDialog("Il campo Email deve contenere un indirizzo email valido");
+            this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
             return "error";
         }
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.sendResetPasswordEmail(email), "Abbiamo inviato una email di reset password al tuo indirizzo. Clicca nel link dell'email per completare il reset della password.");
+        return this.handleApiResult(await this.server.sendResetPasswordEmail(email), getTranslatedMessage("reset_email_sent"));
     }
     async resendConfirmationEmail(email) {
 
         if (isVoidString(email)) {
-            this.openAlertDialog("Il campo Email non può essere vuoto");
+            this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
             return "error";
         }
 
         if (!validateEmail(email)) {
-            this.openAlertDialog("Il campo Email deve contenere un indirizzo email valido");
+            this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
             return "error";
         }
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.resendConfirmationEmail(email), "Abbiamo reinviato una email di conferma al tuo indirizzo. Clicca nel link dell'email per completare la registrazione.");
+        return this.handleApiResult(await this.server.resendConfirmationEmail(email), getTranslatedMessage("register_email_sent"));
     }
 
     // override the deleteRemoteModel feature by forcing for some moment
@@ -2455,22 +2483,23 @@ class StitchAppClient {
     async tryLogin(email, password) {
 
         if (isVoidString(email)) {
-            this.openAlertDialog("Il campo Email non può essere vuoto");
+            this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
             return "error";
         }
 
         if (!validateEmail(email)) {
-            this.openAlertDialog("Il campo Email deve contenere un indirizzo email valido");
+            this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
+            return "error";
+        }
+
+
+        if (isVoidString(password)) {
+            this.openAlertDialog(getTranslatedMessage("password_cannot_be_empty"));
             return "error";
         }
 
         if (isVoidString(password)) {
-            this.openAlertDialog("Il campo Password non può essere vuoto");
-            return "error";
-        }
-
-        if (isVoidString(password)) {
-            this.openAlertDialog("Il campo Password non può essere vuoto");
+            this.openAlertDialog(getTranslatedMessage("password_cannot_be_empty"));
             return "error";
         }
 
@@ -2518,13 +2547,13 @@ class StitchAppClient {
         let res = await this.tryLogin(email, password);
 
         if (isNullOrUndefined(res)) {
-            showBreadCrumb("Sincronizzazione dati...");
+            showBreadCrumb(getTranslatedMessage("sync_data"));
             let obj = await this.handleApiResult(this.server.fetchAndInitModelIfMissing(collection));
 
             if (obj != null) {
                 this.server.bootRemoteModel(obj[0]);
             } else {
-                showBreadCrumb("Impossibile caricare i dati...");
+                showBreadCrumb(getTranslatedMessage("err_sync_data"));
             }
         } else {
             console.info("Login failed: " + (res.message || "unknown error"));
@@ -2552,13 +2581,13 @@ class StitchAppClient {
             let res = await this.tryLogin(email, password);
 
             if (isNullOrUndefined(res)) {
-                showBreadCrumb("Sincronizzazione dati...");
+                showBreadCrumb(getTranslatedMessage("sync_data"));
                 let obj = await this.handleApiResult(this.server.fetchAndInitModelIfMissing(collection));
 
                 if (obj != null) {
                     this.server.bootRemoteModel(obj[0]);
                 } else {
-                    showBreadCrumb("Impossibile caricare i dati...");
+                    showBreadCrumb(getTranslatedMessage("err_sync_data"));
                 }
             } else {
                 console.info("Login failed: " + (res.message || "unknown error"));
