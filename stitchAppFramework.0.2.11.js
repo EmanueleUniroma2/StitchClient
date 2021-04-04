@@ -3,6 +3,69 @@ var IsDeveloper = false;
 var singletonRegisteredEventListeners = [];
 
 
+async function performDefaultLogin() {
+    if(isNullOrUndefined(lastInitedAppClient)){
+      return;
+    }
+    let email = getInputValue("login_email");
+    let password = getInputValue("login_password");
+    if (await lastInitedAppClient.fullLoginFetchSequence(email, password, user_data_collection_name) == null) {
+        navigate(lastInitedAppClient.targetPageAfterLogin);
+    }
+}
+
+function performDefaultRegister() {
+    if(isNullOrUndefined(lastInitedAppClient)){
+      return;
+    }
+    let email = getInputValue("register_email");
+    let password = getInputValue("register_password");
+    let password_2 = getInputValue("register_password_2");
+    lastInitedAppClient.registerUser(email, password, password_2);
+}
+
+
+function performDefaultEmailResend() {
+    if(isNullOrUndefined(lastInitedAppClient)){
+      return;
+    }
+    let email = getInputValue("register_email");
+    lastInitedAppClient.resendConfirmationEmail(email);
+}
+
+async function performDefaultPasswordReset() {
+    if(isNullOrUndefined(lastInitedAppClient)){
+      return;
+    }
+    let password = getInputValue("reset_password");
+    let password_2 = getInputValue("reset_password_2");
+    if (await lastInitedAppClient.resetPassword(password, password_2) == null) {
+        navigate('login');
+    }
+}
+
+async function performDefaultResetPasswordEmailRequest() {
+    if(isNullOrUndefined(lastInitedAppClient)){
+      return;
+    }
+    let form_email = getInputValue("reset_password_email");
+    if (await lastInitedAppClient.sendResetPasswordEmail(form_email) == null) {
+        if (!isVoidString(form_email)) {
+            navigate('login');
+        }
+    }
+}
+
+async function performDefaultUserConfirmation() {
+    if(isNullOrUndefined(lastInitedAppClient)){
+      return;
+    }
+    if (await lastInitedAppClient.confirmUser() == null) {
+        navigate('login');
+    }
+}
+
+
 const frameworkSystemSettings = {
     "language": "it"
 };
@@ -156,7 +219,7 @@ var StitchDefaultPages = [
                      ],
                      [
                         "onclick",
-                        "performLogin();"
+                        "performDefaultLogin();"
                      ],
                      [
                         "innerHTML",
@@ -336,7 +399,7 @@ var StitchDefaultPages = [
                      ],
                      [
                         "onclick",
-                        "performRegister();"
+                        "performDefaultRegister();"
                      ],
                      [
                         "innerHTML",
@@ -387,7 +450,7 @@ var StitchDefaultPages = [
                            ],
                            [
                               "onclick",
-                              "performEmailResend();"
+                              "performDefaultEmailResend();"
                            ]
                         ]
                      }
@@ -416,7 +479,7 @@ var StitchDefaultPages = [
       "content":[
          {
             "node_type":"div",
-            "node_afterinit":"performUserConfirmation",
+            "node_afterinit":"performDefaultUserConfirmation",
             "node_tags":[
                [
                   "className",
@@ -514,7 +577,7 @@ var StitchDefaultPages = [
                      ],
                      [
                         "onclick",
-                        "performResetPasswordEmailRequest();"
+                        "performDefaultResetPasswordEmailRequest();"
                      ],
                      [
                         "innerHTML",
@@ -620,7 +683,7 @@ var StitchDefaultPages = [
                      ],
                      [
                         "onclick",
-                        "performPasswordReset();"
+                        "performDefaultPasswordReset();"
                      ],
                      [
                         "innerHTML",
@@ -1135,7 +1198,7 @@ function navigate(page) {
     }
 }
 
-function bootStitchAppClient(app_name, db_name, pages) {
+function bootStitchAppClient(app_name, db_name, pages, landingPage) {
 
     let usePages = [];
     try{
@@ -1158,6 +1221,7 @@ function bootStitchAppClient(app_name, db_name, pages) {
 
     let clnt = getStitchAppClient(app_name, db_name);
     clnt.registerAppPages(usePages);
+    clnt.setTargetLandingPage(landingPage);
     clnt.boot();
 }
 
@@ -2134,6 +2198,9 @@ class StitchAppClient {
     // last dialog output
     lastDialogOutput = [];
 
+    // page to land on after a successfull login
+    targetPageAfterLogin = "";
+
     // used to dynamically resize some elements
     elementsRegisteredForDynamicResize = [];
 
@@ -2158,12 +2225,14 @@ class StitchAppClient {
     spinnerKeepUp = 0;
 
     constructor(app_name, db_name) {
-
         if (isVoidString(app_name) || isVoidString(db_name)) {
             return;
         }
-
         this.server = new StitchServerClient(app_name, db_name)
+    }
+
+    setTargetLandingPage(page){
+      this.targetPageAfterLogin = page;
     }
 
     // set the api spinnerStatus
