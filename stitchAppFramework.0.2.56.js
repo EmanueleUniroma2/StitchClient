@@ -1050,6 +1050,11 @@ background: rgba(0,0,0,0.2);
   text-align: center;
   color: #27282e;
 }
+.go_back_link{
+  width: fit-content;
+  margin: 0 auto;
+  color: blue;
+}
 .go_to_login_link{
   display: inline-block;
   margin-left: 0.5rem;
@@ -2912,7 +2917,7 @@ class StitchAppClient {
                 ["innerHTML", getTranslatedMessage("page_does_not_exists")]
             ]));
             last = this.betterAppendChild(p, this.betterCreateElement("div", [
-                ["className", "go_to_login_link"],
+                ["className", "go_back_link"],
                 ["innerHTML", getTranslatedMessage("suggest_go_back")],
                 ["onclick", "navigateBack()"]
             ]));
