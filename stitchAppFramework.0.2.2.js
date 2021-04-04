@@ -1579,8 +1579,8 @@ class StitchAppClient {
     }
 
     loadFrameWorkDependancies() {
-        injectStitchClient();
-        injectStitchFrameworkCss();
+        this.injectStitchClient();
+        this.injectStitchFrameworkCss();
     }
 
     injectStitchClient() {
