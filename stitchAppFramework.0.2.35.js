@@ -49,10 +49,19 @@ async function performDefaultResetPasswordEmailRequest() {
         return;
     }
     let form_email = getInputValue("reset_password_email");
+
+    if (isVoidString(email)) {
+        this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
+        return "error";
+    }
+
+    if (!validateEmail(email)) {
+        this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
+        return "error";
+    }
+
     if (await lastInitedAppClient.sendResetPasswordEmail(form_email) == null) {
-        if (!isVoidString(form_email)) {
-            navigate('login');
-        }
+        navigate('login');
     }
 }
 
@@ -2697,6 +2706,8 @@ class StitchAppClient {
 
     // handler for stitch errors
     handleApiResult(result, success) {
+
+        console.log(result, success);
 
         let error_result = false;
 
