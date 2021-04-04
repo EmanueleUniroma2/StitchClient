@@ -96,6 +96,7 @@ const languagePack = {
         "information": "Messaggio informativo",
         "site_err_occupied": "Il sito era momentaneamente occupato e non ha potuto gestire la richiesta. Fare un altro tentativo dovrebbe risolvere il problema.",
         "site_err_credentials": "Sono state fornite credenziali errate, oppure non esiste un account associato a queste credenziali.",
+        "site_err_invalid_user": "L'utenza indicata non è autorizzata a registrarsi su questo sistema.",
         "site_err_password_size": "La password deve essere lunga tra 6 e 128 caratteri.",
         "site_err_user_already_exists": "Esiste già un utente registrato con questa email.",
         "site_err_invalid_token": "Token non valido. Ripetere la procedura.",
@@ -2665,6 +2666,9 @@ class StitchAppClient {
         }
         if (message == "invalid username/password") {
             return getTranslatedMessage("site_err_credentials");
+        }
+        if (message.startsWith("failed to confirm user")){
+          return getTranslatedMessage("site_err_invalid_user");
         }
         if (message == "password must be between 6 and 128 characters") {
             return getTranslatedMessage("site_err_password_size");
