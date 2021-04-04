@@ -541,11 +541,21 @@ function navigate(page) {
     }
 }
 
-function getZombieStitchClient() {
-    return getStitchAppClient("zombie", "zombie");
+
+function bootStitchAppClient(app_name, db_name, pages) {
+    let clnt = getStitchAppClient(app_name, db_name);
+    clnt.boot();
+    return clnt;
 }
 
 function getStitchAppClient(app_name, db_name) {
+
+    if(isVoidString(app_name)){
+      app_name = "zombie";
+    }
+    if(isVoidString(db_name)){
+      db_name = "zombie";
+    }
 
     if (lastInitedAppClient == null) {
         lastInitedAppClient = new StitchAppClient(app_name, db_name);
@@ -1518,7 +1528,7 @@ class StitchAppClient {
     confirm_navigation_level = 0;
 
     // the id of the element in wich the stitch framework will build the app
-    targetPageElementId = null;
+    targetPageElementId = document.body;
 
     // the registered app pages
     appPages = [];
