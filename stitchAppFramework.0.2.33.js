@@ -62,6 +62,7 @@ async function performDefaultUserConfirmation() {
     }
     if (await lastInitedAppClient.confirmUser() == null) {
         navigate('login');
+        lastInitedAppClient.openInfoDialog(getTranslatedMessage("user_account_created"));
     }
 }
 
@@ -129,6 +130,7 @@ const languagePack = {
         "register_title": "Registra un account",
         "did_not_receive_email": "Non hai ricevuto l'email di conferma?",
         "ask_for_another_email": "Richiedi un altra email.",
+        "user_account_created": "Il tuo account è stato creato!",
         "ask_for_another_email_tooltip": "*Verrà usata l'email indicata nel form sopra.",
         "email_confirmation_page": "Se tutto è andato a buon fine, vedrai un messaggio di conferma.",
         "goto_login": "VAI AL LOGIN",
