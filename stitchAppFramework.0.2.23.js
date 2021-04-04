@@ -2381,6 +2381,7 @@ class StitchAppClient {
         this.openAlertDialog(getTranslatedMessage("mongo_client_missing"));
         let fakeServer = {};
         fakeServer["isAuthenticated"] = function(){return false;};
+        fakeServer["loadStoredCredentials"] = function(){return;};
         return fakeServer;
       }
       return this.server;
