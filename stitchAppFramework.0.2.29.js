@@ -2344,7 +2344,7 @@ class StitchAppClient {
 
 
     getServerInstance() {
-        if (!isNullOrUndefined(this.server)) {
+        if (isNullOrUndefined(this.server)) {
             this.openAlertDialog(getTranslatedMessage("mongo_client_missing"));
             let fakeServer = {};
             fakeServer["isAuthenticated"] = function() {
