@@ -86,6 +86,7 @@ const languagePack = {
         "mongo_client_missing": "Errore di setup: Il client Stitch non è impostato su alcuna applicazione Stitch.",
         "no_userdata_collection_defined": "Errore di setup: Collezione User-Data non definita.",
         "close": "Chiudi",
+        "note": "Attenzione",
         "no": "No",
         "yes": "Si",
         "cancel": "Annulla",
@@ -3357,7 +3358,7 @@ class StitchAppClient {
 
         if(isNullOrUndefined(collection)){
           this.openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
-          return;
+          return "errore";
         }
 
         let res = await this.tryLogin(email, password);
@@ -3391,7 +3392,7 @@ class StitchAppClient {
 
         if(isNullOrUndefined(collection)){
           this.openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
-          return;
+          return "errore";
         }
 
         let res = null;
