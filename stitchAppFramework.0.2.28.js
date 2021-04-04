@@ -1341,13 +1341,6 @@ function bootStitchAppClient(settings) {
 
 function getStitchAppClient(app_name, db_name) {
 
-    if (isVoidString(app_name)) {
-        app_name = "zombie";
-    }
-    if (isVoidString(db_name)) {
-        db_name = "zombie";
-    }
-
     if (lastInitedAppClient == null) {
         lastInitedAppClient = new StitchAppClient(app_name, db_name);
         lastInitedAppClient.injectStitchFrameworkCss();
