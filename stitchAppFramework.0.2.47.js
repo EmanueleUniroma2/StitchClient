@@ -2208,6 +2208,10 @@ class StitchServerClient {
                 patch_arguments["$set"][el[0]] = el[1];
             }
 
+            search_keys = {
+                user_id: this.stitch_actual_client.auth.user.id}
+            };
+
         } else {
 
             if (isNullOrUndefined(data["data_id"])) {
@@ -2228,13 +2232,12 @@ class StitchServerClient {
 
         let result = null;
 
-
         if (!this.isAuthenticated()) {
             console.error("reference_to_mongo_db.patchInCollection", "user is not authenticated.");
         } else {
             console.info("Tryng patchInCollection.");
             try {
-                console.log(collection, search_keys)
+                console.log(collection, search_keys, patch_arguments)
                 result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).updateOne(search_keys,
                     patch_arguments, {
                         upsert: false
