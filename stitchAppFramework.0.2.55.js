@@ -70,6 +70,9 @@ async function performDefaultUserConfirmation() {
     }
 }
 
+function navigateBack(){
+  history.pop();
+}
 
 const frameworkSystemSettings = {
     "language": "it"
@@ -111,6 +114,7 @@ const languagePack = {
         "site_err_unknown_error": "Errore sconosciuto",
         "confirm_leave_page": "Sei sicuro di voler cambiare pagina? Il lavoro non salvato andrà perduto.",
         "page_does_not_exists": "La pagina a cui vuoi accedere non esiste.",
+        "suggest_go_back": "Torna indietro",
         "page_does_not_exists_or_requires_login": "La pagina a cui vuoi accedere è riservata agli utenti registrati, oppure non esiste.",
         "suggest_login_1": "Se possiedi un account registrato, puoi accedere tramite la",
         "suggest_login_2": "pagina di accesso.",
@@ -2906,6 +2910,11 @@ class StitchAppClient {
             last = this.betterAppendChild(p, this.betterCreateElement("div", [
                 ["className", "locked_page_label"],
                 ["innerHTML", getTranslatedMessage("page_does_not_exists")]
+            ]));
+            last = this.betterAppendChild(p, this.betterCreateElement("div", [
+                ["className", "go_to_login_link"],
+                ["innerHTML", getTranslatedMessage("suggest_go_back")],
+                ["onclick", "navigateBack()"]
             ]));
         } else {
             last = this.betterAppendChild(p, this.betterCreateElement("div", [
