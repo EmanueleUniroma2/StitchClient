@@ -2602,8 +2602,8 @@ class StitchAppClient {
     // turn api spinner on-off
     toggleAPISpinner(toggle) {
 
-        console.warn("a",this.server);
         if (isNullOrUndefined(this.server)) {
+            this.openAlertDialog(getTranslatedMessage("mongo_client_missing"));
             return true;
         }
 
