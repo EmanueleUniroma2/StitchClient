@@ -1301,6 +1301,9 @@ function validateSettings(settings) {
     if (!("customPages" in settings)) {
         return false;
     }
+    if (!("dataCollection" in settings)) {
+        return false;
+    }
 
     return true;
 }
