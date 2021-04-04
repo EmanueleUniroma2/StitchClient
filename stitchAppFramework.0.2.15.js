@@ -1222,7 +1222,7 @@ function bootStitchAppClient(app_name, db_name, settings) {
 
     let clnt = getStitchAppClient(app_name, db_name);
     clnt.registerAppPages(usePages);
-    clnt.registerUserDataColletion(settings["dataCollection"];)
+    clnt.registerUserDataColletion(settings["dataCollection"]);
     clnt.setTargetLandingPage(settings["landingPage"]);
     clnt.boot();
 }
