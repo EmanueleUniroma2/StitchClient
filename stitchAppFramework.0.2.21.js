@@ -883,6 +883,7 @@ html{
   background-color: rgba(0,0,0,0.1);
   color: #2e4186;
   padding: 0.5rem;
+  border: 1px solid rgba(0,0,0,0.2);
 }
 .subtitle{
   background: rgba(255,255,255,0.4);
@@ -1306,7 +1307,38 @@ function navigate(page) {
     }
 }
 
-function bootStitchAppClient(app_name, db_name, settings) {
+function validateSettings(settings){
+  if (!("AppName" in settings))
+  {
+    return false;
+  }
+  if (!("DBName" in settings))
+  {
+    return false;
+  }
+  if (!("allowDefaultPages" in settings))
+  {
+    return false;
+  }
+  if (!("landingPage" in settings))
+  {
+    return false;
+  }
+  if (!("customPages" in settings))
+  {
+    return false;
+  }
+
+  return true;
+}
+
+function bootStitchAppClient(settings) {
+
+    if(!validateSettings(settings)){
+      console.error("Stitch App Settings are malformed.");
+      return;
+    }
+
 
     let usePages = [];
     try{
@@ -1327,7 +1359,7 @@ function bootStitchAppClient(app_name, db_name, settings) {
       console.warn(e);
     }
 
-    let clnt = getStitchAppClient(app_name, db_name);
+    let clnt = getStitchAppClient(settings["AppName"], settings["DBName"]);
     clnt.registerAppPages(usePages);
     clnt.registerUserDataColletion(settings["dataCollection"]);
     clnt.setTargetLandingPage(settings["landingPage"]);
