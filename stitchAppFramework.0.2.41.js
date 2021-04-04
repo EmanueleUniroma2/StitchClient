@@ -14,6 +14,12 @@ async function performDefaultLogin() {
     }
 }
 
+async function performDefaultLogout() {
+    if (await lastInitedAppClient.logout() == null) {
+        navigate('login');
+    }
+}
+
 function performDefaultRegister() {
     if (isNullOrUndefined(lastInitedAppClient)) {
         return;
