@@ -49,17 +49,6 @@ async function performDefaultResetPasswordEmailRequest() {
         return;
     }
     let form_email = getInputValue("reset_password_email");
-
-    if (isVoidString(form_email)) {
-        this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
-        return "error";
-    }
-
-    if (!validateEmail(form_email)) {
-        this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
-        return "error";
-    }
-
     if (await lastInitedAppClient.sendResetPasswordEmail(form_email) == null) {
         navigate('login');
     }
@@ -1290,6 +1279,13 @@ background: rgba(0,0,0,0.2);
 .fast_resume_green{
     background: rgba(0,255,0,0.3);
 }
+.version_label{
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  font-size: 1em;
+  opacity: 0.7;
+}
 `;
 
 function navigate(page) {
@@ -1352,6 +1348,10 @@ function bootStitchAppClient(settings) {
     clnt.registerAppPages(usePages);
     clnt.registerUserDataColletion(settings["dataCollection"]);
     clnt.setTargetLandingPage(settings["landingPage"]);
+
+    if("version" in settings){
+        clnt.registerAppVersion(settings["version"]);
+    }
 
     if("targetSiteContent" in settings){
         clnt.registerAppTargetNodeId(settings["targetSiteContent"]);
@@ -2323,7 +2323,11 @@ class StitchServerClient {
 /* stitch client for the frontend */
 class StitchAppClient {
 
+    // core
     server = null;
+
+    // app version
+    version = null;
 
     // last dialog output
     lastDialogOutput = [];
@@ -2364,6 +2368,9 @@ class StitchAppClient {
         this.server = new StitchServerClient(app_name, db_name)
     }
 
+    registerAppVersion(version){
+      this.version = version;
+    }
 
 
     getServerInstance() {
@@ -2806,6 +2813,9 @@ class StitchAppClient {
     buildPageBase(content) {
         let p = this.getCleanNavigationPanel();
         this.buildPage(p, content);
+        if(!isVoidString(this.version)){
+          p.appendChild(betterCreateElement("div", [["className", "version_label"], ["innerHTML", this.version]]));
+        }
     }
 
     // recursive page builder
