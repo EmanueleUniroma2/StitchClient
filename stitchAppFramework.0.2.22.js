@@ -2375,9 +2375,13 @@ class StitchAppClient {
         this.server = new StitchServerClient(app_name, db_name)
     }
 
+
     getServerInstance(){
       if(!isNullOrUndefined(this.server)){
         this.openAlertDialog(getTranslatedMessage("mongo_client_missing"));
+        let fakeServer = {};
+        fakeServer["isAuthenticated"] = function(){return false;};
+        return fakeServer;
       }
       return this.server;
     }
