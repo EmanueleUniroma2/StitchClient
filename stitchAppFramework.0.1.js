@@ -3,6 +3,30 @@ var IsDeveloper = false;
 var singletonRegisteredEventListeners = [];
 
 
+const languagePack = [
+  "en":{
+
+  },
+  "it":{
+
+  },
+  "sp":{
+
+  }
+]
+
+const frameworkSystemSettings = {
+  "language": "it"
+};
+
+function getTranslatedMessage(id){
+  let msg = languagePack[frameworkSystemSettings["language"]][id];
+  if(isVoidString(msg)){
+    return "?";
+  }
+  return msg;
+}
+
 const Stitch_FrameWork_EmbeddedStyles = `
 /* Pages */
 html{
@@ -495,7 +519,7 @@ function getStitchAppClient(app_name, db_name) {
 
     if (lastInitedAppClient == null) {
         lastInitedAppClient = new StitchAppClient(app_name, db_name);
-        lastInitedAppClient.injectStitchFrameworkCss();
+        lastInitedAppClient.loadFrameWorkDependancies();
     }
     return lastInitedAppClient;
 }
@@ -1524,6 +1548,19 @@ class StitchAppClient {
         this.appPages = pages;
     }
 
+    loadFrameWorkDependancies(){
+      injectStitchClient();
+      injectStitchFrameworkCss();
+    }
+
+    injectStitchClient(){
+      let node_string = '<script type="text/javascript" src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.9.0/stitch.js"></script>';
+      let script = document.createElement("script");
+      script.type = 'text/javascript';
+      script.src = "https://s3.amazonaws.com/stitch-sdks/js/bundles/4.9.0/stitch.js";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    }
+
     // inject embedded styles in the html
     injectStitchFrameworkCss() {
 
@@ -1949,7 +1986,7 @@ class StitchAppClient {
             ]));
             last = this.betterAppendChild(last, this.betterCreateElement("div", [
                 ["className", "go_to_login_link"],
-                ["innerHTML", "pagina principale."],
+                ["innerHTML", "pagina di accesso."],
                 ["onclick", "navigate('"+this.appPages[0]["name"]+"')"]
             ]));
         }
