@@ -3,7 +3,7 @@ var IsDeveloper = false;
 var singletonRegisteredEventListeners = [];
 
 
-const languagePack = [
+const languagePack = {
     "en": {
 
     },
@@ -43,7 +43,7 @@ const languagePack = [
     "sp": {
 
     }
-]
+}
 
 const frameworkSystemSettings = {
     "language": "it"
