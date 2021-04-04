@@ -153,7 +153,6 @@ var StitchDefaultPages = [
                   "form_page"
                ]
             ],
-            "node_afterinit":"loginSetup",
             "node_childs":[
                {
                   "node_type":"div",
