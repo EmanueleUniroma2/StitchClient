@@ -2609,7 +2609,7 @@ class StitchAppClient {
     // turn api spinner on-off
     toggleAPISpinner(toggle) {
 
-        console.warn(this.server);
+        console.warn("a",this.server);
         if (isNullOrUndefined(this.server)) {
             return true;
         }
