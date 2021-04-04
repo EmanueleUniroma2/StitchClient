@@ -3249,7 +3249,7 @@ class StitchAppClient {
 
         if(isNullOrUndefined(collection)){
           openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
-          return,
+          return;
         }
 
         let res = await this.tryLogin(email, password);
@@ -3283,7 +3283,7 @@ class StitchAppClient {
 
         if(isNullOrUndefined(collection)){
           openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
-          return,
+          return;
         }
 
         let res = null;
