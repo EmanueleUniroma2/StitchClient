@@ -2814,7 +2814,7 @@ class StitchAppClient {
         let p = this.getCleanNavigationPanel();
         this.buildPage(p, content);
         if(!isVoidString(this.version)){
-          p.appendChild(betterCreateElement("div", [["className", "version_label"], ["innerHTML", this.version]]));
+          p.appendChild(this.betterCreateElement("div", [["className", "version_label"], ["innerHTML", this.version]]));
         }
     }
 
