@@ -50,12 +50,12 @@ async function performDefaultResetPasswordEmailRequest() {
     }
     let form_email = getInputValue("reset_password_email");
 
-    if (isVoidString(email)) {
+    if (isVoidString(form_email)) {
         this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
         return "error";
     }
 
-    if (!validateEmail(email)) {
+    if (!validateEmail(form_email)) {
         this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
         return "error";
     }
