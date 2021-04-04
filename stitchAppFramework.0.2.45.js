@@ -987,10 +987,9 @@ html{
 }
 .toolbar_user_menu{
   position: absolute;
-  margin-top: 0.4rem;
+  margin-top: 1.1rem;
   z-index: 10;
-  right: 0rem;
-  width: inherit;
+  right: 2rem;
   min-width: 10em;
   background: white;
 }
