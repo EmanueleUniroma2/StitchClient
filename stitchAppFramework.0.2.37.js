@@ -2707,8 +2707,6 @@ class StitchAppClient {
     // handler for stitch errors
     handleApiResult(result, success) {
 
-        console.log(result, success);
-
         let error_result = false;
 
         try {
@@ -2727,7 +2725,7 @@ class StitchAppClient {
 
         } else {
             if (!isVoidString(success)) {
-                this.openInfoDialog(success);
+                setTimeout(()=>{this.openInfoDialog(success);}, 500);
             }
         }
 
