@@ -986,12 +986,13 @@ html{
   opacity: 0.8;
 }
 .toolbar_user_menu{
-    position: absolute;
-    margin-top: 0.4rem;
-    z-index: 10;
-    right: 1.1rem;
-    width: 15rem;
-    background: white;
+  position: absolute;
+  margin-top: 0.4rem;
+  z-index: 10;
+  right: 0rem;
+  width: inherit;
+  min-width: 10em;
+  background: white;
 }
 .toolbar_user_menu_row{
   padding: 0.5rem 1rem;
