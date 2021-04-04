@@ -542,7 +542,9 @@ function navigate(page) {
 }
 
 function bootStitchAppClient(app_name, db_name, pages) {
-    getStitchAppClient(app_name, db_name).boot();
+    let clnt = getStitchAppClient(app_name, db_name);
+    clnt.registerAppPages(paged);
+    clnt.boot();
 }
 
 function getStitchAppClient(app_name, db_name) {
