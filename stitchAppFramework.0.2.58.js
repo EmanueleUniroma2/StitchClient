@@ -2095,6 +2095,31 @@ class StitchServerClient {
         return result;
     }
 
+    async selectStar(collection) {
+
+        await this.getApiLock();
+
+        let result = null;
+
+        if (!this.isAuthenticated()) {
+            console.error("reference_to_mongo_db.selectStar", "user is not authenticated.");
+        } else {
+            console.info("Tryng selectStar.");
+
+            try {
+                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).find().asArray());
+                console.info("SelectStar done.");
+            } catch (e) {
+                result = e;
+                console.error("reference_to_mongo_db.selectStar", e);
+            }
+        }
+
+        this.apiUnlock();
+
+        return result;
+    }
+
 
     async fetchAndInitModelIfMissing(collection) {
 
@@ -3471,6 +3496,15 @@ class StitchAppClient {
         }
         return this.handleApiResult(await this.getServerInstance().fetch(collection), null);
     }
+
+    async selectStar(collection) {
+
+        if (this.toggleAPISpinner(true)) {
+            return "error";
+        }
+        return this.handleApiResult(await this.getServerInstance().selectStar(collection), null);
+    }
+
     async patchInCollection(collection, data_list, upsertFlag) {
 
         if (this.toggleAPISpinner(true)) {
