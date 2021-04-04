@@ -73,7 +73,7 @@ const frameworkSystemSettings = {
 function getTranslatedMessage(id) {
     let msg = languagePack[frameworkSystemSettings["language"]][id];
     if (isVoidString(msg)) {
-        return "?";
+        return "?("+id+")";
     }
     return msg;
 }
@@ -767,6 +767,112 @@ html{
   background: linear-gradient(45deg, #a8aabe, #b2b6bb);
 }
 
+
+/* Specific dialogs styles */
+
+.stitch_modal_dialog_inkdrop{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 50;
+    background-color: rgba(0,0,0,0.8);
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
+.stitch_bread_crumb {
+    position: fixed;
+    z-index: 100;
+    bottom: 1em;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 0.5em 1em;
+    color: white;
+    font-size: 1.1em;
+    text-align: center;
+    border-radius: 0.5em;
+    margin: 0 auto;
+    width: 1rem;
+    width: min-content;
+    max-width: 30em;
+    min-width: 20em;
+}
+.stitch_modal_dialog{
+	border-radius: 1rem;
+	margin: 10em auto;
+	background-color: white;
+	width: 70vw;
+	padding: 1em;
+}
+.stitch_modal_title{
+  font-weight: bold;
+  font-size: 1.3em;
+  color: black;
+  margin-bottom: 1rem;
+}
+.stitch_modal_button{
+	display: inline-block;
+  margin: 0.5rem 1em;
+  color: black;
+  font-weight: bold;
+  border: 1px solid;
+  padding: 0.1em 0.4em;
+  min-width: 5em;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+.stitch_api_spinner_backdrop{
+    position: fixed;
+    top: 0em;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    opacity: 0.7;
+    z-index: 15;
+}
+.stitch_api_spinner{
+    position: fixed;
+    margin: 0 auto;
+    top: 10em;
+    width: 7em;
+    left: 3em;
+    right: 0;
+    height: 7em;
+    border: 1em solid transparent;
+    border-radius: 50%;
+    border-bottom: 1em solid #3b3b9e;
+    animation: stitch_spinner_spin 0.5s linear infinite;
+    z-index: 15;
+}
+@keyframes stitch_spinner_spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+"@-moz-keyframes stitch_spinner_spin {
+	from {
+		-moz-transform: rotate(0deg);
+	}
+	to {
+		-moz-transform: rotate(360deg);
+	}
+}
+.stitch_dialog_input_title{
+  text-align: left;
+  opacity: 0.7;
+  border-top: 1px solid;
+}
+.stitch_dialog_input{
+  width: 80%;
+  margin: 1rem 9;
+}
 
 
 
@@ -2480,7 +2586,7 @@ class StitchAppClient {
     fadeInDialog() {
         let drop = document.getElementById("modal_ink_drop");
         if(!isNullOrUndefined(drop)){
-          drop.style.opacity = "1";          
+          drop.style.opacity = "1";
         }
     }
 
