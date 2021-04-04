@@ -1525,7 +1525,7 @@ class StitchAppClient {
     confirm_navigation_level = 0;
 
     // the id of the element in wich the stitch framework will build the app
-    targetPageElementId = document.body;
+    targetPageElementId = null;
 
     // the registered app pages
     appPages = [];
@@ -2060,8 +2060,8 @@ class StitchAppClient {
             panel = document.body;
         }
 
-
-        if (isNullOrUndefined(document.body)) {
+        if (isNullOrUndefined(panel)) {
+            alert("Bad Error: Target page node is not defined!");
             return null;
         }
 
