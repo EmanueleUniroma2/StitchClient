@@ -1572,12 +1572,6 @@ function openAppToolbarMenu(targetNode, voices) {
         return;
     }
 
-    // create it if missing
-    let voices = [
-        ["Home Page", "navigate('home')"],
-        ["Archivio", "navigate('archive')"],
-        ["Logout", "performDefaultLogout()"]
-    ];
     menu = document.createElement("div");
     menu.className = "toolbar_user_menu";
     menu.id = "toolbar_user_menu_id";
