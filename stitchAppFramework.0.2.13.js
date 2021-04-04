@@ -9,7 +9,7 @@ async function performDefaultLogin() {
     }
     let email = getInputValue("login_email");
     let password = getInputValue("login_password");
-    if (await lastInitedAppClient.fullLoginFetchSequence(email, password, user_data_collection_name) == null) {
+    if (await lastInitedAppClient.fullLoginFetchSequence(email, password, lastInitedAppClient.userDataColletion) == null) {
         navigate(lastInitedAppClient.targetPageAfterLogin);
     }
 }
@@ -83,6 +83,8 @@ const languagePack = {
 
     },
     "it": {
+        "mongo_client_missing": "Errore di setup: Il client Stitch non è impostato su alcuna applicazione Stitch."
+        "no_userdata_collection_defined": "Errore di setup: Collezione User-Data non definita."
         "close": "Chiudi",
         "no": "No",
         "yes": "Si",
@@ -1197,11 +1199,11 @@ function navigate(page) {
     }
 }
 
-function bootStitchAppClient(app_name, db_name, pages, landingPage) {
+function bootStitchAppClient(app_name, db_name, settings) {
 
     let usePages = [];
     try{
-      if(pages["allowDefaultPages"]){
+      if(settings["allowDefaultPages"]){
         for(let i = 0; i < StitchDefaultPages.length; i++){
           usePages.push(StitchDefaultPages[i]);
         }
@@ -1211,8 +1213,8 @@ function bootStitchAppClient(app_name, db_name, pages, landingPage) {
     }
 
     try{
-      for(let i = 0; i < pages["customPages"].length; i++){
-        usePages.push(pages["customPages"][i]);
+      for(let i = 0; i < settings["customPages"].length; i++){
+        usePages.push(settings["customPages"][i]);
       }
     }catch(e){
       console.warn(e);
@@ -1220,7 +1222,8 @@ function bootStitchAppClient(app_name, db_name, pages, landingPage) {
 
     let clnt = getStitchAppClient(app_name, db_name);
     clnt.registerAppPages(usePages);
-    clnt.setTargetLandingPage(landingPage);
+    clnt.registerUserDataColletion(settings["dataCollection"];)
+    clnt.setTargetLandingPage(settings["landingPage"]);
     clnt.boot();
 }
 
@@ -2203,6 +2206,9 @@ class StitchAppClient {
     // used to dynamically resize some elements
     elementsRegisteredForDynamicResize = [];
 
+    // data collection name
+    userDataColletion = "";
+
     // used to handle page navigation warings like (save before leave this page)
     confirm_navigation_level = 0;
 
@@ -2230,8 +2236,19 @@ class StitchAppClient {
         this.server = new StitchServerClient(app_name, db_name)
     }
 
+    getServerInstance(){
+      if(!isNullOrUndefined(this.server)){
+        openAlertDialog(getTranslatedMessage("mongo_client_missing"));
+      }
+      return this.server;
+    }
+
     setTargetLandingPage(page){
       this.targetPageAfterLogin = page;
+    }
+
+    registerUserDataColletion(collection){
+      this.userDataColletion = collection;
     }
 
     // set the api spinnerStatus
@@ -2305,7 +2322,7 @@ class StitchAppClient {
             let authRequired = page["requiresAuth"];
 
             // you can access a page if it does not require a login, or if you are logged in
-            if (searched_name == name && (!authRequired || this.server.isAuthenticated())) {
+            if (searched_name == name && (!authRequired || this.getServerInstance().isAuthenticated())) {
                 return content;
             }
         }
@@ -2314,7 +2331,7 @@ class StitchAppClient {
     }
 
     isLoggedIn() {
-        return this.server.isAuthenticated();
+        return this.getServerInstance().isAuthenticated();
     }
 
     /* base open dialog class (this uses the embedded stitch styles) */
@@ -2674,7 +2691,7 @@ class StitchAppClient {
     // set sync models
     setSyncModels(modelsList) {
         if (!isNullOrUndefined(modelsList)) {
-            this.server.sync_models = modelsList;
+            this.getServerInstance().sync_models = modelsList;
         }
     }
 
@@ -2684,7 +2701,7 @@ class StitchAppClient {
         let p = this.getCleanNavigationPanel();
         let last;
 
-        if (this.server.isAuthenticated()) {
+        if (this.getServerInstance().isAuthenticated()) {
             last = this.betterAppendChild(p, this.betterCreateElement("div", [
                 ["className", "locked_page_label"],
                 ["innerHTML", getTranslatedMessage("page_does_not_exists")]
@@ -2943,7 +2960,7 @@ class StitchAppClient {
 
     // get logged Email
     loggedEmail() {
-        return this.server.email;
+        return this.getServerInstance().email;
     }
 
     // credits: https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
@@ -2958,7 +2975,7 @@ class StitchAppClient {
     // needed for any action to begin
     boot() {
 
-        this.server.loadStoredCredentials();
+        this.getServerInstance().loadStoredCredentials();
 
         singletonAddEventListener(window, 'resize', pageHasResized, false);
         singletonAddEventListener(window, 'hashchange', pageHasChanged, false);
@@ -2969,7 +2986,7 @@ class StitchAppClient {
     // get stitch client user id
     getAuthenticatedId() {
         try {
-            return this.server.stitch_actual_client.auth.user.id;
+            return this.getServerInstance().stitch_actual_client.auth.user.id;
         } catch (e) {
             return "ID missing";
         }
@@ -2978,7 +2995,7 @@ class StitchAppClient {
     /* exported functions from inner class */
     async confirmUser() {
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.confirmUser(), getTranslatedMessage("account_confirmed"));
+        return this.handleApiResult(await this.getServerInstance().confirmUser(), getTranslatedMessage("account_confirmed"));
     }
     async resetPassword(password, password_2) {
 
@@ -2993,7 +3010,7 @@ class StitchAppClient {
         }
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.resetPassword(password), getTranslatedMessage("password_resetted"));
+        return this.handleApiResult(await this.getServerInstance().resetPassword(password), getTranslatedMessage("password_resetted"));
     }
     async registerUser(email, password, password_2) {
 
@@ -3018,12 +3035,12 @@ class StitchAppClient {
         }
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.registerUser(email.toLowerCase(), password), getTranslatedMessage("register_email_sent"));
+        return this.handleApiResult(await this.getServerInstance().registerUser(email.toLowerCase(), password), getTranslatedMessage("register_email_sent"));
     }
     async sendResetPasswordEmail(email) {
 
-        if (!isVoidString(this.server.email)) {
-            email = this.server.email;
+        if (!isVoidString(this.getServerInstance().email)) {
+            email = this.getServerInstance().email;
         }
 
         if (isVoidString(email)) {
@@ -3037,7 +3054,7 @@ class StitchAppClient {
         }
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.sendResetPasswordEmail(email), getTranslatedMessage("reset_email_sent"));
+        return this.handleApiResult(await this.getServerInstance().sendResetPasswordEmail(email), getTranslatedMessage("reset_email_sent"));
     }
     async resendConfirmationEmail(email) {
 
@@ -3052,19 +3069,19 @@ class StitchAppClient {
         }
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.resendConfirmationEmail(email), getTranslatedMessage("register_email_sent"));
+        return this.handleApiResult(await this.getServerInstance().resendConfirmationEmail(email), getTranslatedMessage("register_email_sent"));
     }
 
     // override the deleteRemoteModel feature by forcing for some moment
     // the sync of a specific field
     async deleteRemoteSpecificField(collection, model_name) {
-        let was = this.server.sync_models;
-        this.server.sync_models = [model_name];
+        let was = this.getServerInstance().sync_models;
+        this.getServerInstance().sync_models = [model_name];
 
         // this calls uses the global SYNC_MODELS to know which models should go on backend
         let result = await this.deleteRemoteModel(collection);
 
-        this.server.sync_models = was;
+        this.getServerInstance().sync_models = was;
 
         return result;
     }
@@ -3074,13 +3091,13 @@ class StitchAppClient {
     // the sync of a specific field
     async insertSpecificModel(collection, model_name) {
 
-        let was = this.server.sync_models;
-        this.server.sync_models = [model_name];
+        let was = this.getServerInstance().sync_models;
+        this.getServerInstance().sync_models = [model_name];
 
         // this calls uses the global SYNC_MODELS to know which models should go on backend
         let result = await this.insertRemoteModel(collection);
 
-        this.server.sync_models = was;
+        this.getServerInstance().sync_models = was;
 
         return result;
     }
@@ -3089,30 +3106,30 @@ class StitchAppClient {
     // the sync of a specific field
     async updateSpecificModel(collection, model_name) {
 
-        let was = this.server.sync_models;
-        this.server.sync_models = [model_name];
+        let was = this.getServerInstance().sync_models;
+        this.getServerInstance().sync_models = [model_name];
 
         // this calls uses the global SYNC_MODELS to know which models should go on backend
         let result = await this.updateRemoteModel(collection);
 
-        this.server.sync_models = was;
+        this.getServerInstance().sync_models = was;
 
         return result;
     }
 
     // send a single object on the collection
     async insertObject(collection, obj) {
-        await this.handleApiResult(this.server.promiseTimeout(this.server.postInCollection(collection, obj)));
+        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().postInCollection(collection, obj)));
     }
 
     // send a single object on the collection
     async updateObject(collection, obj) {
-        await this.handleApiResult(this.server.promiseTimeout(this.server.patchInCollection(collection, obj)));
+        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().patchInCollection(collection, obj)));
     }
 
     // delete a single object on the collection
     async removeObject(collection, obj) {
-        await this.handleApiResult(this.server.promiseTimeout(this.server.removeInCollection(collection, obj)));
+        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().removeInCollection(collection, obj)));
     }
 
 
@@ -3120,8 +3137,8 @@ class StitchAppClient {
     // then the client must check if the storage updated an item
     // registered for syncking. If yes, synck it
     bewareStorageInsertion(collection, name, obj) {
-        if (this.server.sync_models.indexOf(name) == -1) {
-            this.server.authenticated_models.push(name);
+        if (this.getServerInstance().sync_models.indexOf(name) == -1) {
+            this.getServerInstance().authenticated_models.push(name);
             this.insertObject(collection, obj);
         } else {
             this.insertSpecificModel(collection, name);
@@ -3132,8 +3149,8 @@ class StitchAppClient {
     // then the client must check if the storage updated an item
     // registered for syncking. If yes, synck it
     bewareStorageUpdate(collection, name, obj) {
-        if (this.server.sync_models.indexOf(name) == -1) {
-            this.server.authenticated_models.push(name);
+        if (this.getServerInstance().sync_models.indexOf(name) == -1) {
+            this.getServerInstance().authenticated_models.push(name);
             this.updateObject(collection, obj);
         } else {
             this.updateSpecificModel(collection, name);
@@ -3142,8 +3159,8 @@ class StitchAppClient {
 
     // as above but for deletion
     bewareStorageRemoved(collection, name, obj) {
-        if (this.server.sync_models.indexOf(name) == -1) {
-            this.server.authenticated_models = removeElementFromList(this.server.authenticated_models, name);
+        if (this.getServerInstance().sync_models.indexOf(name) == -1) {
+            this.getServerInstance().authenticated_models = removeElementFromList(this.getServerInstance().authenticated_models, name);
             this.removeObject(collection, obj);
         } else {
             this.deleteRemoteSpecificField(collection, name);
@@ -3152,17 +3169,17 @@ class StitchAppClient {
 
     // update all the remote models marked for sinkyng
     async updateRemoteModel(collection) {
-        return await this.server.patchInCollection(collection, this.server.getDataModel());
+        return await this.getServerInstance().patchInCollection(collection, this.getServerInstance().getDataModel());
     }
 
     // insert all the remote models marked for sinkyng
     async insertRemoteModel(collection) {
-        return await this.server.postInCollection(collection, this.server.getDataModel());
+        return await this.getServerInstance().postInCollection(collection, this.getServerInstance().getDataModel());
     }
 
     // delete all the remote models marked for sinkyng
     async deleteRemoteModel(collection) {
-        return await this.server.remove(collection, this.server.getDataModel());
+        return await this.getServerInstance().remove(collection, this.getServerInstance().getDataModel());
     }
 
     // classic login
@@ -3190,37 +3207,37 @@ class StitchAppClient {
         }
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.login(email.toLowerCase(), password), null);
+        return this.handleApiResult(await this.getServerInstance().login(email.toLowerCase(), password), null);
     }
     async logout() {
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.logout(), null);
+        return this.handleApiResult(await this.getServerInstance().logout(), null);
     }
     async setDeveloperFlag(collection, mode) {
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.setDeveloperFlag(collection, mode), null);
+        return this.handleApiResult(await this.getServerInstance().setDeveloperFlag(collection, mode), null);
     }
     async patchSingleInCollection(collection, field) {
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.patchSingleInCollection(collection, field), null);
+        return this.handleApiResult(await this.getServerInstance().patchSingleInCollection(collection, field), null);
     }
     async find(collection, rule) {
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.findInCollection(collection, rule), null);
+        return this.handleApiResult(await this.getServerInstance().findInCollection(collection, rule), null);
     }
 
     async fetch(collection) {
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.fetch(collection), null);
+        return this.handleApiResult(await this.getServerInstance().fetch(collection), null);
     }
     async patchInCollection(collection, data_list) {
 
         this.toggleAPISpinner(true);
-        return this.handleApiResult(await this.server.patchInCollection(collection, data_list), null);
+        return this.handleApiResult(await this.getServerInstance().patchInCollection(collection, data_list), null);
     }
 
     /*
@@ -3230,14 +3247,19 @@ class StitchAppClient {
     */
     async fullLoginFetchSequence(email, password, collection) {
 
+        if(isNullOrUndefined(collection)){
+          openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
+          return,
+        }
+
         let res = await this.tryLogin(email, password);
 
         if (isNullOrUndefined(res)) {
             showBreadCrumb(getTranslatedMessage("sync_data"));
-            let obj = await this.handleApiResult(this.server.fetchAndInitModelIfMissing(collection));
+            let obj = await this.handleApiResult(this.getServerInstance().fetchAndInitModelIfMissing(collection));
 
             if (obj != null) {
-                this.server.bootRemoteModel(obj[0]);
+                this.getServerInstance().bootRemoteModel(obj[0]);
             } else {
                 showBreadCrumb(getTranslatedMessage("err_sync_data"));
             }
@@ -3259,6 +3281,11 @@ class StitchAppClient {
     */
     async autoLoginFullSequence(collection) {
 
+        if(isNullOrUndefined(collection)){
+          openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
+          return,
+        }
+
         let res = null;
 
         /* there are stored credentials */
@@ -3268,10 +3295,10 @@ class StitchAppClient {
 
             if (isNullOrUndefined(res)) {
                 showBreadCrumb(getTranslatedMessage("sync_data"));
-                let obj = await this.handleApiResult(this.server.fetchAndInitModelIfMissing(collection));
+                let obj = await this.handleApiResult(this.getServerInstance().fetchAndInitModelIfMissing(collection));
 
                 if (obj != null) {
-                    this.server.bootRemoteModel(obj[0]);
+                    this.getServerInstance().bootRemoteModel(obj[0]);
                 } else {
                     showBreadCrumb(getTranslatedMessage("err_sync_data"));
                 }
