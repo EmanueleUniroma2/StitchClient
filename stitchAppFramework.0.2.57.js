@@ -71,7 +71,7 @@ async function performDefaultUserConfirmation() {
 }
 
 function navigateBack(){
-  history.pop();
+  window.history.back();
 }
 
 const frameworkSystemSettings = {
