@@ -2238,7 +2238,7 @@ class StitchAppClient {
 
     getServerInstance(){
       if(!isNullOrUndefined(this.server)){
-        openAlertDialog(getTranslatedMessage("mongo_client_missing"));
+        this.openAlertDialog(getTranslatedMessage("mongo_client_missing"));
       }
       return this.server;
     }
@@ -3248,7 +3248,7 @@ class StitchAppClient {
     async fullLoginFetchSequence(email, password, collection) {
 
         if(isNullOrUndefined(collection)){
-          openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
+          this.openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
           return;
         }
 
@@ -3282,7 +3282,7 @@ class StitchAppClient {
     async autoLoginFullSequence(collection) {
 
         if(isNullOrUndefined(collection)){
-          openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
+          this.openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
           return;
         }
 
