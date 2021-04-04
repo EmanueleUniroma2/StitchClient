@@ -2479,7 +2479,9 @@ class StitchAppClient {
     // animation for dialog to fade in
     fadeInDialog() {
         let drop = document.getElementById("modal_ink_drop");
-        drop.style.opacity = "1";
+        if(!isNullOrUndefined(drop)){
+          drop.style.opacity = "1";          
+        }
     }
 
     // turn api spinner on-off
