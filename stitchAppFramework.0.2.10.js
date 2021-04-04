@@ -2,6 +2,81 @@ var lastInitedAppClient = null;
 var IsDeveloper = false;
 var singletonRegisteredEventListeners = [];
 
+
+const frameworkSystemSettings = {
+    "language": "it"
+};
+
+function getTranslatedMessage(id) {
+    let msg = languagePack[frameworkSystemSettings["language"]][id];
+    if (isVoidString(msg)) {
+        return "?";
+    }
+    return msg;
+}
+
+const languagePack = {
+    "en": {
+
+    },
+    "it": {
+        "close": "Chiudi",
+        "no": "No",
+        "yes": "Si",
+        "cancel": "Annulla",
+        "proceed": "Procedi",
+        "message_from_site": "Messaggio dal sito",
+        "site_err_occupied": "Il sito era momentaneamente occupato e non ha potuto gestire la richiesta. Fare un altro tentativo dovrebbe risolvere il problema.",
+        "site_err_credentials": "Sono state fornite credenziali errate, oppure non esiste un account associato a queste credenziali.",
+        "site_err_password_size": "La password deve essere lunga tra 6 e 128 caratteri.",
+        "site_err_user_already_exists": "Esiste già un utente registrato con questa email.",
+        "site_err_invalid_token": "Token non valido. Ripetere la procedura.",
+        "site_err_email_already_registered": "Questa email è associata ad un account già correttamente registrato.",
+        "site_err_expired_token": "Il token di accesso è scaduto o invalido.",
+        "site_err_user_not_exists": "L'email indicata non è associata ad alcun utente registrato.",
+        "site_err_bad_request": "La chiamata API che si è tentata era mal strutturata.",
+        "site_err_unknown_error": "Errore sconosciuto",
+        "confirm_leave_page": "Sei sicuro di voler cambiare pagina? Il lavoro non salvato andrà perduto.",
+        "page_does_not_exists": "La pagina a cui vuoi accedere non esiste.",
+        "page_does_not_exists_or_requires_login": "La pagina a cui vuoi accedere è riservata agli utenti registrati, oppure non esiste.",
+        "suggest_login_1": "Se possiedi un account registrato, puoi accedere tramite la",
+        "suggest_login_2": "pagina di accesso.",
+        "account_confirmed": "Il tuo account è stato confermato con successo.",
+        "password_cannot_be_empty": "Il campo Password non può essere vuoto.",
+        "password_mismatch": "Le due password non coincidono.",
+        "password_resetted": "Password reimpostata con successo.",
+        "email_cannot_be_empty": "Il campo Email non può essere vuoto,",
+        "email_must_be_valid": "Il campo Email deve contenere un indirizzo email valido.",
+        "register_email_sent": "Abbiamo inviato una email di conferma al tuo indirizzo. Clicca nel link dell'email per completare la registrazione.",
+        "reset_email_sent": "Abbiamo inviato una email di reset password al tuo indirizzo. Clicca nel link dell'email per completare il reset della password.",
+        "sync_data": "Sincronizzazione dati...",
+        "err_sync_data": "Impossibile caricare i dati...",
+        "default_pages_login": "Accedi con le tue credenziali.",
+        "default_pages_login_not_registered": "Non sei registrato?",
+        "default_pages_login_not_registered_link": "Registrati ora!",
+        "default_pages_login_forgot_password": "Hai scordato la tua password?",
+        "default_pages_login_forgot_password_link": "Reimposta la tua password.",
+        "login": "ACCEDI",
+        "register" : "REGISTRATI",
+        "back" : "INDIETRO",
+        "register_title" : "Registra un account",
+        "did_not_receive_email" : "Non hai ricevuto l'email di conferma?",
+        "ask_for_another_email" : "Richiedi un altra email.",
+        "ask_for_another_email_tooltip" : "*Verrà usata l'email indicata nel form sopra.",
+        "email_confirmation_page" : "Se tutto è andato a buon fine, vedrai un messaggio di conferma.",
+        "goto_login" : "VAI AL LOGIN",
+        "send_email" : "INVIA EMAIL",
+        "abort" : "ANNULLA",
+        "reset_password_title" : "Reimposta la tua password",
+        "password_repeat" : "Ripeti password",
+        "reset" : "REIMPOSTA",
+        "register_cannot_access":"Se non riesci ad accedere con il tuo account, inserisci la tua email. Se esiste un account registrato con quella email, ti invieremo una email con il link con cui potrai reimpostare la password."
+    },
+    "sp": {
+
+    }
+}
+
 var StitchDefaultPages = [
    {
       "name":"login",
@@ -575,81 +650,6 @@ var StitchDefaultPages = [
       ]
    }
 ];
-
-
-const languagePack = {
-    "en": {
-
-    },
-    "it": {
-        "close": "Chiudi",
-        "no": "No",
-        "yes": "Si",
-        "cancel": "Annulla",
-        "proceed": "Procedi",
-        "message_from_site": "Messaggio dal sito",
-        "site_err_occupied": "Il sito era momentaneamente occupato e non ha potuto gestire la richiesta. Fare un altro tentativo dovrebbe risolvere il problema.",
-        "site_err_credentials": "Sono state fornite credenziali errate, oppure non esiste un account associato a queste credenziali.",
-        "site_err_password_size": "La password deve essere lunga tra 6 e 128 caratteri.",
-        "site_err_user_already_exists": "Esiste già un utente registrato con questa email.",
-        "site_err_invalid_token": "Token non valido. Ripetere la procedura.",
-        "site_err_email_already_registered": "Questa email è associata ad un account già correttamente registrato.",
-        "site_err_expired_token": "Il token di accesso è scaduto o invalido.",
-        "site_err_user_not_exists": "L'email indicata non è associata ad alcun utente registrato.",
-        "site_err_bad_request": "La chiamata API che si è tentata era mal strutturata.",
-        "site_err_unknown_error": "Errore sconosciuto",
-        "confirm_leave_page": "Sei sicuro di voler cambiare pagina? Il lavoro non salvato andrà perduto.",
-        "page_does_not_exists": "La pagina a cui vuoi accedere non esiste.",
-        "page_does_not_exists_or_requires_login": "La pagina a cui vuoi accedere è riservata agli utenti registrati, oppure non esiste.",
-        "suggest_login_1": "Se possiedi un account registrato, puoi accedere tramite la",
-        "suggest_login_2": "pagina di accesso.",
-        "account_confirmed": "Il tuo account è stato confermato con successo.",
-        "password_cannot_be_empty": "Il campo Password non può essere vuoto.",
-        "password_mismatch": "Le due password non coincidono.",
-        "password_resetted": "Password reimpostata con successo.",
-        "email_cannot_be_empty": "Il campo Email non può essere vuoto,",
-        "email_must_be_valid": "Il campo Email deve contenere un indirizzo email valido.",
-        "register_email_sent": "Abbiamo inviato una email di conferma al tuo indirizzo. Clicca nel link dell'email per completare la registrazione.",
-        "reset_email_sent": "Abbiamo inviato una email di reset password al tuo indirizzo. Clicca nel link dell'email per completare il reset della password.",
-        "sync_data": "Sincronizzazione dati...",
-        "err_sync_data": "Impossibile caricare i dati...",
-        "default_pages_login": "Accedi con le tue credenziali.",
-        "default_pages_login_not_registered": "Non sei registrato?",
-        "default_pages_login_not_registered_link": "Registrati ora!",
-        "default_pages_login_forgot_password": "Hai scordato la tua password?",
-        "default_pages_login_forgot_password_link": "Reimposta la tua password.",
-        "login": "ACCEDI",
-        "register" : "REGISTRATI",
-        "back" : "INDIETRO",
-        "register_title" : "Registra un account",
-        "did_not_receive_email" : "Non hai ricevuto l'email di conferma?",
-        "ask_for_another_email" : "Richiedi un altra email.",
-        "ask_for_another_email_tooltip" : "*Verrà usata l'email indicata nel form sopra.",
-        "email_confirmation_page" : "Se tutto è andato a buon fine, vedrai un messaggio di conferma.",
-        "goto_login" : "VAI AL LOGIN",
-        "send_email" : "INVIA EMAIL",
-        "abort" : "ANNULLA",
-        "reset_password_title" : "Reimposta la tua password",
-        "password_repeat" : "Ripeti password",
-        "reset" : "REIMPOSTA",
-        "register_cannot_access":"Se non riesci ad accedere con il tuo account, inserisci la tua email. Se esiste un account registrato con quella email, ti invieremo una email con il link con cui potrai reimpostare la password."
-    },
-    "sp": {
-
-    }
-}
-
-const frameworkSystemSettings = {
-    "language": "it"
-};
-
-function getTranslatedMessage(id) {
-    let msg = languagePack[frameworkSystemSettings["language"]][id];
-    if (isVoidString(msg)) {
-        return "?";
-    }
-    return msg;
-}
 
 const Stitch_FrameWork_EmbeddedStyles = `
 /* Pages */
