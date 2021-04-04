@@ -1560,6 +1560,41 @@ function killBreadCrumb() {
 }
 
 
+function openAppToolbarMenu(targetNode, voices) {
+
+    // close it if open
+    let menu = document.getElementById("toolbar_user_menu_id");
+    if (!isNullOrUndefined(menu)) {
+        while (menu.firstChild) {
+            menu.removeChild(menu.firstChild);
+        }
+        menu.parentNode.removeChild(menu);
+        return;
+    }
+
+    // create it if missing
+    let voices = [
+        ["Home Page", "navigate('home')"],
+        ["Archivio", "navigate('archive')"],
+        ["Logout", "performDefaultLogout()"]
+    ];
+    menu = document.createElement("div");
+    menu.className = "toolbar_user_menu";
+    menu.id = "toolbar_user_menu_id";
+
+    for (let i = 0; i < voices.length; i++) {
+        let voice = voices[i];
+        let row = document.createElement("div");
+        row.className = "toolbar_user_menu_row";
+        row.innerHTML = voice[0];
+        row.setAttribute("onclick", voice[1]);
+        menu.appendChild(row);
+    }
+
+    targetNode.appendChild(menu);
+}
+
+
 
 /* stitch client for the backend */
 class StitchServerClient {
