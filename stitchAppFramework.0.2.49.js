@@ -2109,7 +2109,7 @@ class StitchServerClient {
                     console.info("Fetch data is empty, filling first time user.");
 
                     this.apiUnlock();
-                    await this.promiseTimeout(this.patchInCollection(collection, this.getFirstTimeModel()));
+                    await this.promiseTimeout(this.patchInCollection(collection, this.getFirstTimeModel(), true));
                     this.apiLock();
 
                     showBreadCrumb("Il tuo account è stato inizializzato.");
@@ -2186,7 +2186,7 @@ class StitchServerClient {
     }
 
 
-    async patchInCollection(collection, data) {
+    async patchInCollection(collection, data, upsertFlag) {
 
         let patch_arguments;
         let search_keys;
@@ -2237,10 +2237,10 @@ class StitchServerClient {
         } else {
             console.info("Tryng patchInCollection.");
             try {
-                console.log(collection, search_keys, patch_arguments)
+
                 result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).updateOne(search_keys,
                     patch_arguments, {
-                        upsert: false
+                        upsert: upsertFlag
                     }));
                 console.info("Done.");
             } catch (e) {
@@ -3330,17 +3330,17 @@ class StitchAppClient {
 
     // send a single object on the collection
     async insertObject(collection, obj) {
-        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().postInCollection(collection, obj)));
+        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().postInCollection(collection, obj, false)));
     }
 
     // send a single object on the collection
     async updateObject(collection, obj) {
-        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().patchInCollection(collection, obj)));
+        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().patchInCollection(collection, obj, false)));
     }
 
     // delete a single object on the collection
     async removeObject(collection, obj) {
-        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().removeInCollection(collection, obj)));
+        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().removeInCollection(collection, obj, false)));
     }
 
 
@@ -3380,17 +3380,17 @@ class StitchAppClient {
 
     // update all the remote models marked for sinkyng
     async updateRemoteModel(collection) {
-        return await this.getServerInstance().patchInCollection(collection, this.getServerInstance().getDataModel());
+        return await this.getServerInstance().patchInCollection(collection, this.getServerInstance().getDataModel(), false);
     }
 
     // insert all the remote models marked for sinkyng
     async insertRemoteModel(collection) {
-        return await this.getServerInstance().postInCollection(collection, this.getServerInstance().getDataModel());
+        return await this.getServerInstance().postInCollection(collection, this.getServerInstance().getDataModel(), false);
     }
 
     // delete all the remote models marked for sinkyng
     async deleteRemoteModel(collection) {
-        return await this.getServerInstance().remove(collection, this.getServerInstance().getDataModel());
+        return await this.getServerInstance().remove(collection, this.getServerInstance().getDataModel(), false);
     }
 
     // classic login
@@ -3457,12 +3457,12 @@ class StitchAppClient {
         }
         return this.handleApiResult(await this.getServerInstance().fetch(collection), null);
     }
-    async patchInCollection(collection, data_list) {
+    async patchInCollection(collection, data_list, upsertFlag) {
 
         if (this.toggleAPISpinner(true)) {
             return "error";
         }
-        return this.handleApiResult(await this.getServerInstance().patchInCollection(collection, data_list), null);
+        return this.handleApiResult(await this.getServerInstance().patchInCollection(collection, data_list, upsertFlag), null);
     }
 
     /*
