@@ -2234,6 +2234,7 @@ class StitchServerClient {
         } else {
             console.info("Tryng patchInCollection.");
             try {
+                console.log(collection, search_keys)
                 result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).updateOne(search_keys,
                     patch_arguments, {
                         upsert: false
