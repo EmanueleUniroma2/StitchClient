@@ -2209,7 +2209,7 @@ class StitchServerClient {
             }
 
             search_keys = {
-                user_id: this.stitch_actual_client.auth.user.id}
+                user_id: this.stitch_actual_client.auth.user.id
             };
 
         } else {
