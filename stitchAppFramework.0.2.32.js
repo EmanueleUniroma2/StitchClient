@@ -1339,6 +1339,11 @@ function bootStitchAppClient(settings) {
     clnt.registerAppPages(usePages);
     clnt.registerUserDataColletion(settings["dataCollection"]);
     clnt.setTargetLandingPage(settings["landingPage"]);
+
+    if("syncModels" in settings){
+        clnt.setSyncModels(settings["syncModels"]);
+    }
+
     clnt.boot();
 }
 
@@ -1727,7 +1732,6 @@ class StitchServerClient {
 
     getDataModel() {
         let data_list = [];
-
         for (let i = 0; i < this.sync_models.length; i++) {
             let name = this.sync_models[i];
             let el = localStorage.getItem(name);
@@ -1745,10 +1749,9 @@ class StitchServerClient {
         model.push(["email", this.email]);
         model.push(["is_developer", false]);
         model.push(["user_id", this.stitch_actual_client.auth.user.id]);
-
+        model.push(["created_on", new Date().toISOString()])
         return model;
     }
-
 
 
     bootRemoteModel(user_data) {
