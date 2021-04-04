@@ -1353,6 +1353,10 @@ function bootStitchAppClient(settings) {
     clnt.registerUserDataColletion(settings["dataCollection"]);
     clnt.setTargetLandingPage(settings["landingPage"]);
 
+    if("targetSiteContent" in settings){
+        clnt.registerAppTargetNodeId(settings["targetSiteContent"]);
+    }
+
     if("syncModels" in settings){
         clnt.setSyncModels(settings["syncModels"]);
     }
@@ -2725,7 +2729,11 @@ class StitchAppClient {
 
         } else {
             if (!isVoidString(success)) {
-                setTimeout(()=>{this.openInfoDialog(success);}, 500);
+                if(!isVoidString(this.targetPageElementId)){
+                  this.openInfoDialog(success);
+                }else{
+                  setTimeout(()=>{this.openInfoDialog(success);}, 400);
+                }
             }
         }
 
