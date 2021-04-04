@@ -83,8 +83,8 @@ const languagePack = {
 
     },
     "it": {
-        "mongo_client_missing": "Errore di setup: Il client Stitch non è impostato su alcuna applicazione Stitch."
-        "no_userdata_collection_defined": "Errore di setup: Collezione User-Data non definita."
+        "mongo_client_missing": "Errore di setup: Il client Stitch non è impostato su alcuna applicazione Stitch.",
+        "no_userdata_collection_defined": "Errore di setup: Collezione User-Data non definita.",
         "close": "Chiudi",
         "no": "No",
         "yes": "Si",
