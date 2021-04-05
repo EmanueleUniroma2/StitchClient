@@ -166,7 +166,7 @@ var StitchDefaultPages = [{
         "requiresAuth": false,
         "content": [{
             "node_type": "div",
-            "node_afterinit": "checkUserIsAuthenticated"
+            "node_afterinit": "checkUserIsAuthenticated",
             "node_tags": [
                 [
                     "className",
