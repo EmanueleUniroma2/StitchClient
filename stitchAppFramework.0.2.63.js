@@ -3501,7 +3501,7 @@ class StitchAppClient {
       if (this.toggleAPISpinner(true)) {
           return "error";
       }
-      return await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().findObjectInCollection(collection, obj)));
+      return await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().findObjectInCollection(collection, obj_id)));
     }
 
     async setDeveloperFlag(collection, mode) {
