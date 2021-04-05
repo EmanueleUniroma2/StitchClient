@@ -2162,6 +2162,33 @@ class StitchServerClient {
         return result;
     }
 
+    async findObjectInCollection(collection, object_id) {
+
+        await this.getApiLock();
+
+        let result = null;
+
+        if (!this.isAuthenticated()) {
+            console.error("reference_to_mongo_db.findObjectInCollection", "user is not authenticated.");
+        } else {
+            console.info("Tryng findObjectInCollection.");
+
+            try {
+                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).find({
+                    data_id: object_id
+                }));
+                console.info("Done.");
+            } catch (e) {
+                result = e;
+                console.error("reference_to_mongo_db.findObjectInCollection", e);
+            }
+        }
+
+        this.apiUnlock();
+
+        return result;
+    }
+
     async removeInCollection(collection, objectToRemove) {
 
         await this.getApiLock();
@@ -3469,6 +3496,14 @@ class StitchAppClient {
         }
         return this.handleApiResult(await this.getServerInstance().logout(), null);
     }
+
+    async findObjectInCollection(collection, obj_id){
+      if (this.toggleAPISpinner(true)) {
+          return "error";
+      }
+      return await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().findObjectInCollection(collection, obj)));
+    }
+
     async setDeveloperFlag(collection, mode) {
 
         if (this.toggleAPISpinner(true)) {
