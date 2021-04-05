@@ -2734,7 +2734,7 @@ class StitchAppClient {
 
                 let spinner = document.createElement("div");
                 spinner.className = "stitch_api_spinner";
-                document.body.appendChild(spinner);
+                spinner_backdrop.appendChild(spinner);
             }
         }
         // remove ANY instance of the API spinner
