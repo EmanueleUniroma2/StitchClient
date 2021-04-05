@@ -718,7 +718,7 @@ html{
   min-height: 100vh;
 }
 .form_page{
-  padding: 2rem 1rem;
+  padding: 1rem;
   text-align: center;
 }
 .inner_page{
