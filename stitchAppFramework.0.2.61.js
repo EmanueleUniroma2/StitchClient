@@ -1053,6 +1053,7 @@ background: rgba(0,0,0,0.2);
 .go_back_link{
   width: fit-content;
   margin: 0 auto;
+  cursor:pointer;
   color: blue;
 }
 .go_to_login_link{
