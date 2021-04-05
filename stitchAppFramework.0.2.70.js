@@ -156,7 +156,7 @@ const languagePack = {
 }
 
 function checkUserIsAuthenticated(){
-  if(lastInitedAppClient.isAuthenticated() && !isVoidString(lastInitedAppClient.targetPageAfterLogin)){
+  if(lastInitedAppClient.isLoggedIn() && !isVoidString(lastInitedAppClient.targetPageAfterLogin)){
     navigate(lastInitedAppClient.targetPageAfterLogin);
   }
 }
