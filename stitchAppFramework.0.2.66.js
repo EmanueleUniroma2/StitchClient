@@ -824,20 +824,20 @@ html{
     background-color: white;
     opacity: 0.7;
     z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .stitch_api_spinner{
-    position: fixed;
-    margin: 0 auto;
-    top: 10em;
-    width: 7em;
-    left: 3em;
-    right: 0;
-    height: 7em;
-    border: 1em solid transparent;
-    border-radius: 50%;
-    border-bottom: 1em solid #3b3b9e;
-    animation: stitch_spinner_spin 0.5s linear infinite;
-    z-index: 15;
+  margin: 0 auto;
+  top: 10em;
+  width: 7em;
+  height: 7em;
+  border: 1em solid transparent;
+  border-radius: 50%;
+  border-bottom: 1em solid #3b3b9e;
+  animation: stitch_spinner_spin 0.5s linear infinite;
+  z-index: 15;
 }
 @keyframes stitch_spinner_spin {
 	from {
