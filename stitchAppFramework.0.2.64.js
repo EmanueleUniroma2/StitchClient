@@ -122,7 +122,7 @@ const languagePack = {
         "password_cannot_be_empty": "Il campo Password non può essere vuoto.",
         "password_mismatch": "Le due password non coincidono.",
         "password_resetted": "Password reimpostata con successo.",
-        "email_cannot_be_empty": "Il campo Email non può essere vuoto,",
+        "email_cannot_be_empty": "Il campo Email non può essere vuoto.",
         "email_must_be_valid": "Il campo Email deve contenere un indirizzo email valido.",
         "register_email_sent": "Abbiamo inviato una email di conferma al tuo indirizzo. Clicca nel link dell'email per completare la registrazione.",
         "reset_email_sent": "Abbiamo inviato una email di reset password al tuo indirizzo. Clicca nel link dell'email per completare il reset della password.",
@@ -2162,33 +2162,6 @@ class StitchServerClient {
         return result;
     }
 
-    async findObjectInCollection(collection, object_id) {
-
-        await this.getApiLock();
-
-        let result = null;
-
-        if (!this.isAuthenticated()) {
-            console.error("reference_to_mongo_db.findObjectInCollection", "user is not authenticated.");
-        } else {
-            console.info("Tryng findObjectInCollection.");
-
-            try {
-                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).find({
-                    data_id: object_id
-                }));
-                console.info("Done.");
-            } catch (e) {
-                result = e;
-                console.error("reference_to_mongo_db.findObjectInCollection", e);
-            }
-        }
-
-        this.apiUnlock();
-
-        return result;
-    }
-
     async removeInCollection(collection, objectToRemove) {
 
         await this.getApiLock();
@@ -3495,13 +3468,6 @@ class StitchAppClient {
             return "error";
         }
         return this.handleApiResult(await this.getServerInstance().logout(), null);
-    }
-
-    async findObjectInCollection(collection, obj_id){
-      if (this.toggleAPISpinner(true)) {
-          return "error";
-      }
-      return await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().findObjectInCollection(collection, obj_id)));
     }
 
     async setDeveloperFlag(collection, mode) {
