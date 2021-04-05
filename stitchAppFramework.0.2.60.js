@@ -1296,10 +1296,11 @@ background: rgba(0,0,0,0.2);
 }
 .version_label{
   position: fixed;
-  bottom: 1em;
-  right: 1em;
-  font-size: 1em;
+  bottom: 0.1em;
+  right: 0.1em;
+  font-size: 0.6em;
   opacity: 0.7;
+  user-select: none;
 }
 `;
 
