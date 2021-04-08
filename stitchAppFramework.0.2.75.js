@@ -3378,6 +3378,20 @@ class StitchAppClient {
     }
 
     // send a single object on the collection
+    async insertObjectInternal(collection, obj) {
+        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().postInCollection(collection, obj, false)));
+    }
+
+    // send a single object on the collection
+    async updateObjectInternal(collection, obj) {
+        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().patchInCollection(collection, obj, false)));
+    }
+
+    async removeObjectInternal(collection, obj) {
+        await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().removeInCollection(collection, obj, false)));
+    }
+
+    // send a single object on the collection
     async insertObject(collection, obj) {
         if (this.toggleAPISpinner(true)) {
             return null;
@@ -3408,7 +3422,7 @@ class StitchAppClient {
     bewareStorageInsertion(collection, name, obj) {
         if (this.getServerInstance().sync_models.indexOf(name) == -1) {
             this.getServerInstance().authenticated_models.push(name);
-            this.insertObject(collection, obj);
+            this.insertObjectInternal(collection, obj);
         } else {
             this.insertSpecificModel(collection, name);
         }
@@ -3420,7 +3434,7 @@ class StitchAppClient {
     bewareStorageUpdate(collection, name, obj) {
         if (this.getServerInstance().sync_models.indexOf(name) == -1) {
             this.getServerInstance().authenticated_models.push(name);
-            this.updateObject(collection, obj);
+            this.updateObjectInternal(collection, obj);
         } else {
             this.updateSpecificModel(collection, name);
         }
@@ -3430,7 +3444,7 @@ class StitchAppClient {
     bewareStorageRemoved(collection, name, obj) {
         if (this.getServerInstance().sync_models.indexOf(name) == -1) {
             this.getServerInstance().authenticated_models = removeElementFromList(this.getServerInstance().authenticated_models, name);
-            this.removeObject(collection, obj);
+            this.removeObjectInternal(collection, obj);
         } else {
             this.deleteRemoteSpecificField(collection, name);
         }
