@@ -95,6 +95,7 @@ const languagePack = {
         "no_userdata_collection_defined": "Errore di setup: Collezione User-Data non definita.",
         "close": "Chiudi",
         "note": "Attenzione",
+        "required_data": "Inserisci i seguenti campi.",
         "no": "No",
         "yes": "Si",
         "cancel": "Annulla",
