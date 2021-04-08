@@ -7,7 +7,7 @@ async function performDefaultLogin() {
     if (isNullOrUndefined(lastInitedAppClient)) {
         return;
     }
-    let email = getInputValue("login_email");
+    let email = getInputValue("login_email").trim();
     let password = getInputValue("login_password");
     if (await lastInitedAppClient.fullLoginFetchSequence(email, password, lastInitedAppClient.userDataColletion) == null) {
         navigate(lastInitedAppClient.targetPageAfterLogin);
@@ -24,7 +24,7 @@ function performDefaultRegister() {
     if (isNullOrUndefined(lastInitedAppClient)) {
         return;
     }
-    let email = getInputValue("register_email");
+    let email = getInputValue("register_email").trim();
     let password = getInputValue("register_password");
     let password_2 = getInputValue("register_password_2");
     lastInitedAppClient.registerUser(email, password, password_2);
@@ -35,7 +35,7 @@ function performDefaultEmailResend() {
     if (isNullOrUndefined(lastInitedAppClient)) {
         return;
     }
-    let email = getInputValue("register_email");
+    let email = getInputValue("register_email").trim();
     lastInitedAppClient.resendConfirmationEmail(email);
 }
 
@@ -54,7 +54,7 @@ async function performDefaultResetPasswordEmailRequest() {
     if (isNullOrUndefined(lastInitedAppClient)) {
         return;
     }
-    let form_email = getInputValue("reset_password_email");
+    let form_email = getInputValue("reset_password_email").trim();
     if (await lastInitedAppClient.sendResetPasswordEmail(form_email) == null) {
         navigate('login');
     }
