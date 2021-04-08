@@ -3245,7 +3245,7 @@ class StitchAppClient {
     /* exported functions from inner class */
     async confirmUser() {
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().confirmUser(), getTranslatedMessage("account_confirmed"));
     }
@@ -3253,16 +3253,16 @@ class StitchAppClient {
 
         if (isVoidString(password)) {
             this.openAlertDialog(getTranslatedMessage("password_cannot_be_empty"));
-            return "error";
+            return null;
         }
 
         if (password != password_2) {
             this.openAlertDialog(getTranslatedMessage("password_mismatch"));
-            return "error";
+            return null;
         }
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().resetPassword(password), getTranslatedMessage("password_resetted"));
     }
@@ -3270,26 +3270,26 @@ class StitchAppClient {
 
         if (isVoidString(email)) {
             this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
-            return "error";
+            return null;
         }
 
         if (!validateEmail(email)) {
             this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
-            return "error";
+            return null;
         }
 
         if (isVoidString(password)) {
             this.openAlertDialog(getTranslatedMessage("password_cannot_be_empty"));
-            return "error";
+            return null;
         }
 
         if (password != password_2) {
             this.openAlertDialog(getTranslatedMessage("password_mismatch"));
-            return "error";
+            return null;
         }
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().registerUser(email.toLowerCase(), password), getTranslatedMessage("register_email_sent"));
     }
@@ -3301,16 +3301,16 @@ class StitchAppClient {
 
         if (isVoidString(email)) {
             this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
-            return "error";
+            return null;
         }
 
         if (!validateEmail(email)) {
             this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
-            return "error";
+            return null;
         }
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().sendResetPasswordEmail(email), getTranslatedMessage("reset_email_sent"));
     }
@@ -3318,16 +3318,16 @@ class StitchAppClient {
 
         if (isVoidString(email)) {
             this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
-            return "error";
+            return null;
         }
 
         if (!validateEmail(email)) {
             this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
-            return "error";
+            return null;
         }
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().resendConfirmationEmail(email), getTranslatedMessage("register_email_sent"));
     }
@@ -3380,7 +3380,7 @@ class StitchAppClient {
     // send a single object on the collection
     async insertObject(collection, obj) {
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().postInCollection(collection, obj, false)));
     }
@@ -3388,7 +3388,7 @@ class StitchAppClient {
     // send a single object on the collection
     async updateObject(collection, obj) {
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().patchInCollection(collection, obj, false)));
     }
@@ -3396,7 +3396,7 @@ class StitchAppClient {
     // delete a single object on the collection
     async removeObject(collection, obj) {
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().removeInCollection(collection, obj, false)));
     }
@@ -3456,33 +3456,33 @@ class StitchAppClient {
 
         if (isVoidString(email)) {
             this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
-            return "error";
+            return null;
         }
 
         if (!validateEmail(email)) {
             this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
-            return "error";
+            return null;
         }
 
 
         if (isVoidString(password)) {
             this.openAlertDialog(getTranslatedMessage("password_cannot_be_empty"));
-            return "error";
+            return null;
         }
 
         if (isVoidString(password)) {
             this.openAlertDialog(getTranslatedMessage("password_cannot_be_empty"));
-            return "error";
+            return null;
         }
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().login(email.toLowerCase(), password), null);
     }
     async logout() {
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().logout(), null);
     }
@@ -3490,21 +3490,21 @@ class StitchAppClient {
     async setDeveloperFlag(collection, mode) {
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().setDeveloperFlag(collection, mode), null);
     }
     async patchSingleInCollection(collection, field) {
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().patchSingleInCollection(collection, field), null);
     }
     async find(collection, rule) {
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().findInCollection(collection, rule), null);
     }
@@ -3512,7 +3512,7 @@ class StitchAppClient {
     async fetch(collection) {
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().fetch(collection), null);
     }
@@ -3520,7 +3520,7 @@ class StitchAppClient {
     async selectStar(collection) {
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().selectStar(collection), null);
     }
@@ -3528,7 +3528,7 @@ class StitchAppClient {
     async patchInCollection(collection, data_list, upsertFlag) {
 
         if (this.toggleAPISpinner(true)) {
-            return "error";
+            return null;
         }
         return this.handleApiResult(await this.getServerInstance().patchInCollection(collection, data_list, upsertFlag), null);
     }
