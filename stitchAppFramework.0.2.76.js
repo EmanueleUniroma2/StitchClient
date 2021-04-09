@@ -96,6 +96,7 @@ const languagePack = {
         "close": "Chiudi",
         "note": "Attenzione",
         "required_data": "Inserisci i seguenti campi.",
+        "confirm_action":"Confermare azione",
         "no": "No",
         "yes": "Si",
         "cancel": "Annulla",
