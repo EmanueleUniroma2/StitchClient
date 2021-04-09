@@ -114,6 +114,7 @@ const languagePack = {
         "site_err_user_not_exists": "L'email indicata non è associata ad alcun utente registrato.",
         "site_err_bad_request": "La chiamata API che si è tentata era mal strutturata.",
         "site_err_unknown_error": "Errore sconosciuto",
+        "site_err_expired_session": "La sessione è scaduta, devi eseguire di nuovo il login.",
         "confirm_leave_page": "Sei sicuro di voler cambiare pagina? Il lavoro non salvato andrà perduto.",
         "page_does_not_exists": "La pagina a cui vuoi accedere non esiste.",
         "suggest_go_back": "Torna indietro",
@@ -2767,6 +2768,9 @@ class StitchAppClient {
 
         if (message == undefined) {
             return getTranslatedMessage("site_err_occupied");
+        }
+        if (message == "method called requires being authenticated"){
+          return getTranslatedMessage("site_err_expired_session");
         }
         if (message == "invalid username/password") {
             return getTranslatedMessage("site_err_credentials");
