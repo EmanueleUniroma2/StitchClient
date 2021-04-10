@@ -1613,7 +1613,7 @@ function openAppToolbarMenu(targetNode, voices) {
     menu = document.createElement("div");
     menu.className = "toolbar_user_menu";
     menu.id = "toolbar_user_menu_id";
-    menu.name = getGUIID();
+    menu.name = lastInitedAppClient.getGUIID();
 
     for (let i = 0; i < voices.length; i++) {
         let voice = voices[i];
