@@ -2148,7 +2148,7 @@ class StitchServerClient {
             console.info("Tryng selectStar.");
 
             try {
-                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).find({ $sample: { size: 1 } }).asArray());
+                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).aggregate({ $sample: { size: 1 } }).asArray());
                 console.info("SelectStar done.");
             } catch (e) {
                 result = e;
