@@ -2665,7 +2665,7 @@ class StitchAppClient {
 
         for (let i = 0; i < inputs.length; i++) {
 
-            let prefill = isVoidString(inputs[i]["start_value"]) ? "" : inputs[i]["start_value"];
+            let prefill = isVoidString(inputs[i]["start_value"]) ? "" : inputs[i]["start_value"].replace("'","\'");
 
             if (!isVoidString(prefill)) {
                 prefill = " value='" + prefill + "' ";
