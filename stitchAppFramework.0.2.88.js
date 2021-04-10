@@ -1591,7 +1591,7 @@ function closeMenu(id){
 
   let menus;
 
-  if(!isNullOrUndefined(id){
+  if(!isNullOrUndefined(id)){
     menus = [document.getElementById(id)];
   }else{
     let search = document.getElementsByClassName("toolbar_user_menu");
