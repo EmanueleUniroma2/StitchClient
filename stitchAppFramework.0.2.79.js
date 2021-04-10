@@ -1425,6 +1425,17 @@ function singletonAddEventListener(target, eventName, callBack, flag) {
     }
 }
 
+function handleGlobalClick(){
+  let menu = document.getElementById("toolbar_user_menu_id");
+  if (!isNullOrUndefined(menu)) {
+      while (menu.firstChild) {
+          menu.removeChild(menu.firstChild);
+      }
+      menu.parentNode.removeChild(menu);
+      return;
+  }
+}
+
 function pageHasResized() {
     if (!isNullOrUndefined(lastInitedAppClient)) {
         lastInitedAppClient.pageResizeHandle();
@@ -3235,6 +3246,7 @@ class StitchAppClient {
 
         this.getServerInstance().loadStoredCredentials();
 
+        singletonAddEventListener(document.body, 'click', handleGlobalClick, false);
         singletonAddEventListener(window, 'resize', pageHasResized, false);
         singletonAddEventListener(window, 'hashchange', pageHasChanged, false);
 
