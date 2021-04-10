@@ -1392,6 +1392,10 @@ function bootStitchAppClient(settings) {
         clnt.setSyncModels(settings["syncModels"]);
     }
 
+    if("afterAllInits" in settings){
+      window[settings["afterAllInits"]]();
+    }
+
     clnt.boot();
 }
 
@@ -2665,7 +2669,7 @@ class StitchAppClient {
 
         for (let i = 0; i < inputs.length; i++) {
 
-            let prefill = isVoidString(inputs[i]["start_value"]) ? "" : inputs[i]["start_value"].replace("'","\'");
+            let prefill = isVoidString(inputs[i]["start_value"]) ? "" : inputs[i]["start_value"];
 
             if (!isVoidString(prefill)) {
                 prefill = " value='" + prefill + "' ";
