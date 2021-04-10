@@ -1595,7 +1595,7 @@ function closeMenu(id){
     menus = [document.getElementById(id)];
   }else{
     let search = document.getElementsByClassName("toolbar_user_menu");
-    for(let i = 0; i < search; i++){
+    for(let i = 0; i < search.length; i++){
       menus.push(search[i]);
     }
   }
