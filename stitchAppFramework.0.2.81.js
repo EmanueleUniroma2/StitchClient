@@ -1426,7 +1426,7 @@ function singletonAddEventListener(target, eventName, callBack, flag) {
 }
 
 function handleGlobalClick(){
-  closeMenu();
+  closeMenu(null);
 }
 
 function pageHasResized() {
@@ -1587,9 +1587,16 @@ function killBreadCrumb() {
     first.parentElement.removeChild(first);
 }
 
-function closeMenu(){
+function closeMenu(name){
   let menu = document.getElementById("toolbar_user_menu_id");
   if (!isNullOrUndefined(menu)) {
+
+      if(!isNullOrUndefined(name)){
+        if(menu.name != name){
+          return;
+        }
+      }
+
       while (menu.firstChild) {
           menu.removeChild(menu.firstChild);
       }
@@ -1601,11 +1608,12 @@ function closeMenu(){
 function openAppToolbarMenu(targetNode, voices) {
 
     // close it if open
-    closeMenu();
+    closeMenu(null);
 
     menu = document.createElement("div");
     menu.className = "toolbar_user_menu";
     menu.id = "toolbar_user_menu_id";
+    menu.name = getGUIID();
 
     for (let i = 0; i < voices.length; i++) {
         let voice = voices[i];
@@ -1618,7 +1626,7 @@ function openAppToolbarMenu(targetNode, voices) {
 
     targetNode.appendChild(menu);
 
-    setTimeout(function process(){closeMenu();}, 8000);
+    setTimeout(function process(){closeMenu(menu.name);}, 8000);
 }
 
 
