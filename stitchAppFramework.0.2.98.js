@@ -2828,37 +2828,37 @@ class StitchAppClient {
         if (message == undefined) {
             return getTranslatedMessage("site_err_occupied");
         }
-        if (message == "the request transport encountered an error communicating with Stitch: Network request failed"){
+        if (message.indexOf("the request transport encountered an error communicating with Stitch: Network request failed") != -1){
           return getTranslatedMessage("site_err_no_internet");
         }
-        if (message == "method called requires being authenticated"){
+        if (message.indexOf("method called requires being authenticated") != -1){
           return getTranslatedMessage("site_err_expired_session");
         }
-        if (message == "invalid username/password") {
+        if (message.indexOf("invalid username/password") != -1){
             return getTranslatedMessage("site_err_credentials");
         }
-        if (message.startsWith("failed to confirm user")){
+        if (message.indexOf("failed to confirm user") != -1){
           return getTranslatedMessage("site_err_invalid_user");
         }
-        if (message == "password must be between 6 and 128 characters") {
+        if (message.indexOf("password must be between 6 and 128 characters") != -1){
             return getTranslatedMessage("site_err_password_size");
         }
-        if (message == "name already in use") {
+        if (message.indexOf("name already in use") != -1){
             return getTranslatedMessage("site_err_user_already_exists");
         }
-        if (message == "invalid token data") {
+        if (message.indexOf("invalid token data") != -1){
             return getTranslatedMessage("site_err_invalid_token");
         }
-        if (message == "already confirmed") {
+        if (message.indexOf("already confirmed") != -1){
             return getTranslatedMessage("site_err_email_already_registered");
         }
-        if (message == "userpass token is expired or invalid") {
+        if (message.indexOf("userpass token is expired or invalid") != -1){
             return getTranslatedMessage("site_err_expired_token");
         }
-        if (message == "user not found") {
+        if (message.indexOf("user not found") != -1){
             return getTranslatedMessage("site_err_user_not_exists");
         }
-        if (message == "bad argument") {
+        if (message.indexOf("bad argument") != -1){
             return getTranslatedMessage("site_err_bad_request");
         }
 
