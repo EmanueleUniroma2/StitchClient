@@ -1426,14 +1426,7 @@ function singletonAddEventListener(target, eventName, callBack, flag) {
 }
 
 function handleGlobalClick(){
-  let menu = document.getElementById("toolbar_user_menu_id");
-  if (!isNullOrUndefined(menu)) {
-      while (menu.firstChild) {
-          menu.removeChild(menu.firstChild);
-      }
-      menu.parentNode.removeChild(menu);
-      return;
-  }
+  closeMenu();
 }
 
 function pageHasResized() {
@@ -1594,18 +1587,21 @@ function killBreadCrumb() {
     first.parentElement.removeChild(first);
 }
 
+function closeMenu(){
+  let menu = document.getElementById("toolbar_user_menu_id");
+  if (!isNullOrUndefined(menu)) {
+      while (menu.firstChild) {
+          menu.removeChild(menu.firstChild);
+      }
+      menu.parentNode.removeChild(menu);
+      return;
+  }
+}
 
 function openAppToolbarMenu(targetNode, voices) {
 
     // close it if open
-    let menu = document.getElementById("toolbar_user_menu_id");
-    if (!isNullOrUndefined(menu)) {
-        while (menu.firstChild) {
-            menu.removeChild(menu.firstChild);
-        }
-        menu.parentNode.removeChild(menu);
-        return;
-    }
+    closeMenu();
 
     menu = document.createElement("div");
     menu.className = "toolbar_user_menu";
@@ -1621,6 +1617,8 @@ function openAppToolbarMenu(targetNode, voices) {
     }
 
     targetNode.appendChild(menu);
+
+    setTimeout(function process(){closeMenu();}, 8000);
 }
 
 
