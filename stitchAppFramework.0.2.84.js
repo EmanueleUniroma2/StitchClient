@@ -1590,7 +1590,7 @@ function killBreadCrumb() {
 function closeMenu(name){
   let menu = document.getElementById("toolbar_user_menu_id");
   if (!isNullOrUndefined(menu)) {
-      console.log(manu.name, name)
+      console.log(menu.name, name)
       if(!isNullOrUndefined(name)){
         if(menu.name != name){
           return;
