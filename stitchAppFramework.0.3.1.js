@@ -1626,6 +1626,8 @@ function openAppToolbarMenu(targetNode, voices) {
 
       targetNode.appendChild(menu);
     }
+
+    setTimeout(function process(){menu.style.maxHeight = "60vh";},100);
 }
 
 
