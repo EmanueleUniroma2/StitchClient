@@ -1589,7 +1589,7 @@ function killBreadCrumb() {
 
 function closeMenu(id){
 
-  let menus;
+  let menus = [];
 
   if(!isNullOrUndefined(id)){
     menus = [document.getElementById(id)];
