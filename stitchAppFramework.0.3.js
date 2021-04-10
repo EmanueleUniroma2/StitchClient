@@ -1596,7 +1596,7 @@ function killBreadCrumb() {
 }
 
 function closeMenu(){
-  let menu = document.getElementsByClassName("toolbar_user_menu_id");
+  let menu = document.getElementById("toolbar_user_menu_id");
   if(!isNullOrUndefined(menu)){
     menu.style.maxHeight = "";
   }
