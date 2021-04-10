@@ -1587,21 +1587,28 @@ function killBreadCrumb() {
     first.parentElement.removeChild(first);
 }
 
-function closeMenu(name){
-  let menu = document.getElementById("toolbar_user_menu_id");
-  if (!isNullOrUndefined(menu)) {
-      console.log(menu.name, name)
-      if(!isNullOrUndefined(name)){
-        if(menu.name != name){
-          return;
-        }
-      }
+function closeMenu(id){
 
-      while (menu.firstChild) {
-          menu.removeChild(menu.firstChild);
-      }
-      menu.parentNode.removeChild(menu);
-      return;
+  let menus;
+
+  if(!isNullOrUndefined(id){
+    menus = [document.getElementById(id)];
+  }else{
+    let search = document.getElementsByClassName("toolbar_user_menu");
+    for(let i = 0; i < search; i++){
+      menus.push(search[i]);
+    }
+  }
+
+  for(let i = 0; i < menus.length; i++){
+    let menu = menus[i];
+    if (!isNullOrUndefined(menu)) {
+        while (menu.firstChild) {
+            menu.removeChild(menu.firstChild);
+        }
+        menu.parentNode.removeChild(menu);
+        return;
+    }
   }
 }
 
@@ -1610,10 +1617,11 @@ function openAppToolbarMenu(targetNode, voices) {
     // close it if open
     closeMenu(null);
 
+    let id = "toolbar_user_menu_id_" + getGUIID();
+
     menu = document.createElement("div");
     menu.className = "toolbar_user_menu";
-    menu.id = "toolbar_user_menu_id";
-    menu.name = lastInitedAppClient.getGUIID();
+    menu.id = id;
 
     for (let i = 0; i < voices.length; i++) {
         let voice = voices[i];
@@ -1626,7 +1634,7 @@ function openAppToolbarMenu(targetNode, voices) {
 
     targetNode.appendChild(menu);
 
-    setTimeout(function process(){closeMenu(menu.name);}, 8000);
+    setTimeout(function process(){closeMenu(id);}, 8000);
 }
 
 
