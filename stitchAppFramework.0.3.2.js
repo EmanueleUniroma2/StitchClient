@@ -732,7 +732,7 @@ html{
   min-height: 100vh;
 }
 .form_page{
-  padding: 1rem;
+  padding: 0;
   text-align: center;
 }
 .inner_page{
@@ -18199,7 +18199,7 @@ class StitchAppClient {
 
     function Body() {
         return this.bodyUsed = !1, this._initBody = function(e) {
-            (this._bodyInit = e) ? "string" == typeof e ? this._bodyText = e : support.blob && Blob.prototype.isPrototypeOf(e) ? this._bodyBlob = e : support.formData && FormData.prototype.isPrototypeOf(e) ? this._bodyFormData = e : support.searchParams && URLSearchParams.prototype.isPrototypeOf(e) ? this._bodyText = e.toString() : support.arrayBuffer && support.blob && isDataView(e) ? (this._bodyArrayBuffer = bufferClone(e.buffer), this._bodyInit = new Blob([this._bodyArrayBuffer])) : support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(e) || isArrayBufferView(e)) ? this._bodyArrayBuffer = bufferClone(e) : this._bodyText = e = Object.prototype.toString.call(e): this._bodyText = "", this.headers.get("content-type") || ("string" == typeof e ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : support.searchParams && URLSearchParams.prototype.isPrototypeOf(e) && this.headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"))
+            (this._bodyInit = e) ? "string" == typeof e ? this._bodyText = e : support.blob && Blob.prototype.isPrototypeOf(e) ? this._bodyBlob = e : support.formData && FormData.prototype.isPrototypeOf(e) ? this._bodyFormData = e : support.searchParams && URLSearchParams.prototype.isPrototypeOf(e) ? this._bodyText = e.toString() : support.arrayBuffer && support.blob && isDataView(e) ? (this._bodyArrayBuffer = bufferClone(e.buffer), this._bodyInit = new Blob([this._bodyArrayBuffer])) : support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(e) || isArrayBufferView(e)) ? this._bodyArrayBuffer = bufferClone(e) : this._bodyText = e = Object.prototype.toString.call(e): this._bodyText = "", this.headers.get("content-type") || ("string" == typeof e ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : support.searchParams && URLSearchParams.prototype.isPrototypeOf(e) && this.headers.set("content-type", "application/x-www-form_pageurlencoded;charset=UTF-8"))
         }, support.blob && (this.blob = function() {
             var e = consumed(this);
             if (e) return e;
