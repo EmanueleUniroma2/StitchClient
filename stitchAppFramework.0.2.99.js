@@ -1009,6 +1009,9 @@ html{
   z-index: 10;
   right: 2rem;
   min-width: 10em;
+  overflow-y: hidden;
+  max-height: 0;
+  transition: max-height 2s ease-out;
   background: white;
 }
 .toolbar_user_menu_row{
@@ -1431,7 +1434,7 @@ function singletonAddEventListener(target, eventName, callBack, flag) {
 }
 
 function handleGlobalClick(){
-  closeMenu(null);
+  closeMenu();
 }
 
 function pageHasResized() {
@@ -1592,54 +1595,37 @@ function killBreadCrumb() {
     first.parentElement.removeChild(first);
 }
 
-function closeMenu(id){
-
-  let menus = [];
-
-  if(!isNullOrUndefined(id)){
-    menus = [document.getElementById(id)];
-  }else{
-    let search = document.getElementsByClassName("toolbar_user_menu");
-    for(let i = 0; i < search.length; i++){
-      menus.push(search[i]);
-    }
-  }
-
-  for(let i = 0; i < menus.length; i++){
-    let menu = menus[i];
-    if (!isNullOrUndefined(menu)) {
-        while (menu.firstChild) {
-            menu.removeChild(menu.firstChild);
-        }
-        menu.parentNode.removeChild(menu);
-        return;
-    }
+function closeMenu(){
+  let menu = document.getElementsByClassName("toolbar_user_menu_id");
+  if(!isNullOrUndefined(menu)){
+    menu.style.maxHeight = "";
   }
 }
 
 function openAppToolbarMenu(targetNode, voices) {
 
     // close it if open
-    closeMenu(null);
+    closeMenu();
 
-    let id = "toolbar_user_menu_id_" + lastInitedAppClient.getGUIID();
+    let id = "toolbar_user_menu_id";
 
-    menu = document.createElement("div");
-    menu.className = "toolbar_user_menu";
-    menu.id = id;
+    let old = document.getElementById(id);
+    if(isNullOrUndefined(old)){
+      menu = document.createElement("div");
+      menu.className = "toolbar_user_menu";
+      menu.id = id;
 
-    for (let i = 0; i < voices.length; i++) {
-        let voice = voices[i];
-        let row = document.createElement("div");
-        row.className = "toolbar_user_menu_row";
-        row.innerHTML = voice[0];
-        row.setAttribute("onclick", voice[1]);
-        menu.appendChild(row);
+      for (let i = 0; i < voices.length; i++) {
+          let voice = voices[i];
+          let row = document.createElement("div");
+          row.className = "toolbar_user_menu_row";
+          row.innerHTML = voice[0];
+          row.setAttribute("onclick", voice[1]);
+          menu.appendChild(row);
+      }
+
+      targetNode.appendChild(menu);
     }
-
-    targetNode.appendChild(menu);
-
-    setTimeout(function process(){closeMenu(id);}, 8000);
 }
 
 
