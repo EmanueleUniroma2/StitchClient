@@ -1617,7 +1617,7 @@ function openAppToolbarMenu(targetNode, voices) {
     // close it if open
     closeMenu(null);
 
-    let id = "toolbar_user_menu_id_" + getGUIID();
+    let id = "toolbar_user_menu_id_" + lastInitedAppClient.getGUIID();
 
     menu = document.createElement("div");
     menu.className = "toolbar_user_menu";
