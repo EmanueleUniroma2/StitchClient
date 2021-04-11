@@ -3270,6 +3270,10 @@ class StitchAppClient {
         if (pagerequest != this.getUrlSection(1)) {
             let new_url = encodeURI(this.getUrlSection(0) + "#" + pagerequest);
             history.pushState(null, null, new_url);
+
+            if(!this.skipNextHashNavigation()){
+              this.pageNavigate();              
+            }
         }
 
         return ''; // chrome requires return value
