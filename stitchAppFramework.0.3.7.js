@@ -2514,9 +2514,8 @@ class StitchAppClient {
     }
 
     getSkipNavigation(){
-      let value = this.skipNextHashNavigationFlag;
-      this.skipNextHashNavigationFlag = false;
-      return value;
+      setTimeout(function process(){this.skipNextHashNavigationFlag = false},100);
+      return this.skipNextHashNavigationFlag;
     }
 
     getServerInstance() {
@@ -3272,7 +3271,7 @@ class StitchAppClient {
             history.pushState(null, null, new_url);
 
             if(!this.skipNextHashNavigation()){
-              this.pageNavigate();              
+              this.pageNavigate();
             }
         }
 
