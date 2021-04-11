@@ -2059,7 +2059,7 @@ class StitchServerClient {
             console.info("Tryng patchSingleInCollection.", field);
 
             try {
-                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).updateOne({
+                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).findOneAndUpdate({
                     user_id: this.stitch_actual_client.auth.user.id
                 }, patch_arguments, {
                     upsert: true
@@ -2331,7 +2331,7 @@ class StitchServerClient {
             console.info("Tryng patchInCollection.");
             try {
 
-                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).updateOne(search_keys,
+                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).findOneAndUpdate(search_keys,
                     patch_arguments, {
                         upsert: upsertFlag
                     }));
