@@ -1445,9 +1445,7 @@ function pageHasResized() {
 
 function pageHasChanged() {
     if (!isNullOrUndefined(lastInitedAppClient)) {
-        if(!lastInitedAppClient.getSkipNavigation()){
-          lastInitedAppClient.pageNavigate();
-        }
+        lastInitedAppClient.pageNavigate();
     }
 }
 
@@ -2481,9 +2479,6 @@ class StitchAppClient {
     // the id of the element in wich the stitch framework will build the app
     targetPageElementId = null;
 
-    // used to skip the next page navigation caused by hashbang
-    skipNextHashNavigationFlag = false;
-
     // the registered app pages
     appPages = [];
 
@@ -2507,15 +2502,6 @@ class StitchAppClient {
 
     registerAppVersion(version){
       this.version = version;
-    }
-
-    skipNextHashNavigation(){
-      this.skipNextHashNavigationFlag = true;
-    }
-
-    getSkipNavigation(){
-      setTimeout(function process(){this.skipNextHashNavigationFlag = false},100);
-      return this.skipNextHashNavigationFlag;
     }
 
     getServerInstance() {
@@ -3270,9 +3256,7 @@ class StitchAppClient {
             let new_url = encodeURI(this.getUrlSection(0) + "#" + pagerequest);
             history.pushState(null, null, new_url);
 
-            if(!this.skipNextHashNavigation()){
-              this.pageNavigate();
-            }
+            this.pageNavigate();
         }
 
         return ''; // chrome requires return value
