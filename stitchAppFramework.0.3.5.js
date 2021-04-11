@@ -1446,7 +1446,7 @@ function pageHasResized() {
 function pageHasChanged() {
     if (!isNullOrUndefined(lastInitedAppClient)) {
         if(!lastInitedAppClient.getSkipNavigation()){
-          lastInitedAppClient.pageNavigate();          
+          lastInitedAppClient.pageNavigate();
         }
     }
 }
@@ -3270,8 +3270,6 @@ class StitchAppClient {
         if (pagerequest != this.getUrlSection(1)) {
             let new_url = encodeURI(this.getUrlSection(0) + "#" + pagerequest);
             history.pushState(null, null, new_url);
-
-            this.pageNavigate();
         }
 
         return ''; // chrome requires return value
