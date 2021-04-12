@@ -2960,7 +2960,7 @@ class StitchAppClient {
         // handle resize specific logics once
         this.pageResizeHandle();
 
-        runAfterNavigation();
+        this.runAfterNavigation();
     }
 
     // refresh the current page based on url #-navigation
