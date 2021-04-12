@@ -3496,6 +3496,14 @@ class StitchAppClient {
         return await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().patchInCollection(collection, obj, false)));
     }
 
+    // send a single object on the collection
+    async updateOrInsertObject(collection, obj) {
+        if (this.toggleAPISpinner(true)) {
+            return undefined;
+        }
+        return await this.handleApiResult(this.getServerInstance().promiseTimeout(this.getServerInstance().patchInCollection(collection, obj, true)));
+    }
+
     // delete a single object on the collection
     async removeObject(collection, obj) {
         if (this.toggleAPISpinner(true)) {
