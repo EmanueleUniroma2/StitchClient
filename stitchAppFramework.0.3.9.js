@@ -73,8 +73,8 @@ async function performDefaultUserConfirmation() {
     }
 }
 
-function navigateBack(){
-  window.history.back();
+function navigateBack() {
+    window.history.back();
 }
 
 const frameworkSystemSettings = {
@@ -99,7 +99,7 @@ const languagePack = {
         "close": "Chiudi",
         "note": "Attenzione",
         "required_data": "Inserisci i seguenti campi.",
-        "confirm_action":"Confermare azione",
+        "confirm_action": "Confermare azione",
         "no": "No",
         "yes": "Si",
         "cancel": "Annulla",
@@ -162,10 +162,10 @@ const languagePack = {
     }
 }
 
-function checkUserIsAuthenticated(){
-  if(lastInitedAppClient.isLoggedIn() && !isVoidString(lastInitedAppClient.targetPageAfterLogin)){
-    navigate(lastInitedAppClient.targetPageAfterLogin);
-  }
+function checkUserIsAuthenticated() {
+    if (lastInitedAppClient.isLoggedIn() && !isVoidString(lastInitedAppClient.targetPageAfterLogin)) {
+        navigate(lastInitedAppClient.targetPageAfterLogin);
+    }
 }
 
 var StitchDefaultPages = [{
@@ -1383,20 +1383,20 @@ function bootStitchAppClient(settings) {
     clnt.registerUserDataColletion(settings["dataCollection"]);
     clnt.setTargetLandingPage(settings["landingPage"]);
 
-    if("version" in settings){
+    if ("version" in settings) {
         clnt.registerAppVersion(settings["version"]);
     }
 
-    if("targetSiteContent" in settings){
+    if ("targetSiteContent" in settings) {
         clnt.registerAppTargetNodeId(settings["targetSiteContent"]);
     }
 
-    if("syncModels" in settings){
+    if ("syncModels" in settings) {
         clnt.setSyncModels(settings["syncModels"]);
     }
 
-    if("afterAllInits" in settings){
-      window[settings["afterAllInits"]]();
+    if ("afterAllInits" in settings) {
+        window[settings["afterAllInits"]]();
     }
 
     clnt.boot();
@@ -1433,8 +1433,8 @@ function singletonAddEventListener(target, eventName, callBack, flag) {
     }
 }
 
-function handleGlobalClick(){
-  closeMenu();
+function handleGlobalClick() {
+    closeMenu();
 }
 
 function pageHasResized() {
@@ -1595,11 +1595,11 @@ function killBreadCrumb() {
     first.parentElement.removeChild(first);
 }
 
-function closeMenu(){
-  let menu = document.getElementById("toolbar_user_menu_id");
-  if(!isNullOrUndefined(menu)){
-    menu.style.maxHeight = "";
-  }
+function closeMenu() {
+    let menu = document.getElementById("toolbar_user_menu_id");
+    if (!isNullOrUndefined(menu)) {
+        menu.style.maxHeight = "";
+    }
 }
 
 function openAppToolbarMenu(targetNode, voices) {
@@ -1610,24 +1610,26 @@ function openAppToolbarMenu(targetNode, voices) {
     let id = "toolbar_user_menu_id";
 
     let old = document.getElementById(id);
-    if(isNullOrUndefined(old)){
-      menu = document.createElement("div");
-      menu.className = "toolbar_user_menu";
-      menu.id = id;
+    if (isNullOrUndefined(old)) {
+        menu = document.createElement("div");
+        menu.className = "toolbar_user_menu";
+        menu.id = id;
 
-      for (let i = 0; i < voices.length; i++) {
-          let voice = voices[i];
-          let row = document.createElement("div");
-          row.className = "toolbar_user_menu_row";
-          row.innerHTML = voice[0];
-          row.setAttribute("onclick", voice[1]);
-          menu.appendChild(row);
-      }
+        for (let i = 0; i < voices.length; i++) {
+            let voice = voices[i];
+            let row = document.createElement("div");
+            row.className = "toolbar_user_menu_row";
+            row.innerHTML = voice[0];
+            row.setAttribute("onclick", voice[1]);
+            menu.appendChild(row);
+        }
 
-      targetNode.appendChild(menu);
+        targetNode.appendChild(menu);
     }
 
-    setTimeout(function process(){menu.style.maxHeight = "60vh";},100);
+    setTimeout(function process() {
+        menu.style.maxHeight = "60vh";
+    }, 100);
 }
 
 
@@ -1635,45 +1637,48 @@ function openAppToolbarMenu(targetNode, voices) {
 /* stitch client for the backend */
 class StitchServerClient {
 
-    // sync models
-    // this list must contain the list of items' keys from "localStorage" that will be syncked
-    // between each device and on the backend
-    // e.g:
-    // localStorage contains { "field_1": "value_1", "field_2": "value_2", "field_3": "value_3"}
-    //
-    // if you want to sync only field_1 and field_3 you can set this list as ["field_1","field_3"]
-    //
-    // this will automagically make the sync happen
-    //
-    // remember that only elements that are stored in the localStorage can be syncked
-    sync_models = [];
-
-    // set of models that must be romoved from storage upon logout
-    authenticated_models = [];
-
-    // drivers
-    db_name = "";
-    app_name = "";
-
-    // clients
-    stitch_actual_client = null;
-    reference_to_mongo_db = null;
-    profileProvider = null;
-
-    // stored credentials
-    email = "";
-    password = "";
-
-    // used to avoid multiple calls in parallel
-    promise_timed_out_flag = "__promise_did_timeout__";
-    promise_time_out_duration = 10000;
-
-    // multiple api call in parallel are not supported by
-    // the stitch client so we must enable a serving queue
-    alreadyServing = false;
-
     // init clients
     constructor(app_name, db_name) {
+
+        // sync models
+        // this list must contain the list of items' keys from "localStorage" that will be syncked
+        // between each device and on the backend
+        // e.g:
+        // localStorage contains { "field_1": "value_1", "field_2": "value_2", "field_3": "value_3"}
+        //
+        // if you want to sync only field_1 and field_3 you can set this list as ["field_1","field_3"]
+        //
+        // this will automagically make the sync happen
+        //
+        // remember that only elements that are stored in the localStorage can be syncked
+        this.sync_models = [];
+
+        // set of models that must be romoved from storage upon logout
+        this.authenticated_models = [];
+
+        // drivers
+        this.db_name = "";
+        this.app_name = "";
+
+        // clients
+        this.stitch_actual_client = null;
+        this.reference_to_mongo_db = null;
+        this.profileProvider = null;
+
+        // stored credentials
+        this.email = "";
+        this.password = "";
+
+        // used to avoid multiple calls in parallel
+        this.promise_timed_out_flag = "__promise_did_timeout__";
+        this.promise_time_out_duration = 10000;
+
+        // multiple api call in parallel are not supported by
+        // the stitch client so we must enable a serving queue
+        this.alreadyServing = false;
+
+
+
         this.app_name = app_name;
         this.db_name = db_name;
 
@@ -2140,7 +2145,11 @@ class StitchServerClient {
             console.info("Tryng selectStar.");
 
             try {
-                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).aggregate([{ $sample: { size: 1 } }]).asArray());
+                result = await this.promiseTimeout(this.reference_to_mongo_db.collection(collection).aggregate([{
+                    $sample: {
+                        size: 1
+                    }
+                }]).asArray());
                 console.info("SelectStar done.");
             } catch (e) {
                 result = e;
@@ -2455,53 +2464,54 @@ class StitchServerClient {
 /* stitch client for the frontend */
 class StitchAppClient {
 
-    // core
-    server = null;
-
-    // app version
-    version = null;
-
-    // last dialog output
-    lastDialogOutput = [];
-
-    // page to land on after a successfull login
-    targetPageAfterLogin = "";
-
-    // used to dynamically resize some elements
-    elementsRegisteredForDynamicResize = [];
-
-    // data collection name
-    userDataColletion = "";
-
-    // used to handle page navigation warings like (save before leave this page)
-    confirm_navigation_level = 0;
-
-    // the id of the element in wich the stitch framework will build the app
-    targetPageElementId = null;
-
-    // the registered app pages
-    appPages = [];
-
-    // page resize callback
-    pageResizedCallbackName = null;
-
-    // api spinner feature toggle
-    allowSpinnerWhenCallingAStitchApi = true;
-
-    // preserve API spinners removals for N times
-    // this is ignored and resetted to 0 if one api
-    // throws any kynd of error
-    spinnerKeepUp = 0;
-
     constructor(app_name, db_name) {
+
+        // core
+        this.server = null;
+
+        // app version
+        this.version = null;
+
+        // last dialog output
+        this.lastDialogOutput = [];
+
+        // page to land on after a successfull login
+        this.targetPageAfterLogin = "";
+
+        // used to dynamically resize some elements
+        this.elementsRegisteredForDynamicResize = [];
+
+        // data collection name
+        this.userDataColletion = "";
+
+        // used to handle page navigation warings like (save before leave this page)
+        this.confirm_navigation_level = 0;
+
+        // the id of the element in wich the stitch framework will build the app
+        this.targetPageElementId = null;
+
+        // the registered app pages
+        this.appPages = [];
+
+        // page resize callback
+        this.pageResizedCallbackName = null;
+
+        // api spinner feature toggle
+        this.allowSpinnerWhenCallingAStitchApi = true;
+
+        // preserve API spinners removals for N times
+        // this is ignored and resetted to 0 if one api
+        // throws any kynd of error
+        this.spinnerKeepUp = 0;
+
         if (isVoidString(app_name) || isVoidString(db_name)) {
             return;
         }
         this.server = new StitchServerClient(app_name, db_name)
     }
 
-    registerAppVersion(version){
-      this.version = version;
+    registerAppVersion(version) {
+        this.version = version;
     }
 
     getServerInstance() {
@@ -2815,37 +2825,37 @@ class StitchAppClient {
         if (message == undefined) {
             return getTranslatedMessage("site_err_occupied");
         }
-        if (message.indexOf("the request transport encountered an error communicating with Stitch: Network request failed") != -1){
-          return getTranslatedMessage("site_err_no_internet");
+        if (message.indexOf("the request transport encountered an error communicating with Stitch: Network request failed") != -1) {
+            return getTranslatedMessage("site_err_no_internet");
         }
-        if (message.indexOf("method called requires being authenticated") != -1){
-          return getTranslatedMessage("site_err_expired_session");
+        if (message.indexOf("method called requires being authenticated") != -1) {
+            return getTranslatedMessage("site_err_expired_session");
         }
-        if (message.indexOf("invalid username/password") != -1){
+        if (message.indexOf("invalid username/password") != -1) {
             return getTranslatedMessage("site_err_credentials");
         }
-        if (message.indexOf("failed to confirm user") != -1){
-          return getTranslatedMessage("site_err_invalid_user");
+        if (message.indexOf("failed to confirm user") != -1) {
+            return getTranslatedMessage("site_err_invalid_user");
         }
-        if (message.indexOf("password must be between 6 and 128 characters") != -1){
+        if (message.indexOf("password must be between 6 and 128 characters") != -1) {
             return getTranslatedMessage("site_err_password_size");
         }
-        if (message.indexOf("name already in use") != -1){
+        if (message.indexOf("name already in use") != -1) {
             return getTranslatedMessage("site_err_user_already_exists");
         }
-        if (message.indexOf("invalid token data") != -1){
+        if (message.indexOf("invalid token data") != -1) {
             return getTranslatedMessage("site_err_invalid_token");
         }
-        if (message.indexOf("already confirmed") != -1){
+        if (message.indexOf("already confirmed") != -1) {
             return getTranslatedMessage("site_err_email_already_registered");
         }
-        if (message.indexOf("userpass token is expired or invalid") != -1){
+        if (message.indexOf("userpass token is expired or invalid") != -1) {
             return getTranslatedMessage("site_err_expired_token");
         }
-        if (message.indexOf("user not found") != -1){
+        if (message.indexOf("user not found") != -1) {
             return getTranslatedMessage("site_err_user_not_exists");
         }
-        if (message.indexOf("bad argument") != -1){
+        if (message.indexOf("bad argument") != -1) {
             return getTranslatedMessage("site_err_bad_request");
         }
 
@@ -2873,10 +2883,12 @@ class StitchAppClient {
 
         } else {
             if (!isVoidString(success)) {
-                if(!isVoidString(this.targetPageElementId)){
-                  this.openInfoDialog(success);
-                }else{
-                  setTimeout(()=>{this.openInfoDialog(success);}, 400);
+                if (!isVoidString(this.targetPageElementId)) {
+                    this.openInfoDialog(success);
+                } else {
+                    setTimeout(() => {
+                        this.openInfoDialog(success);
+                    }, 400);
                 }
             }
         }
@@ -2950,8 +2962,11 @@ class StitchAppClient {
     buildPageBase(content) {
         let p = this.getCleanNavigationPanel();
         this.buildPage(p, content);
-        if(!isVoidString(this.version)){
-          p.appendChild(this.betterCreateElement("div", [["className", "version_label"], ["innerHTML", this.version]]));
+        if (!isVoidString(this.version)) {
+            p.appendChild(this.betterCreateElement("div", [
+                ["className", "version_label"],
+                ["innerHTML", this.version]
+            ]));
         }
     }
 
