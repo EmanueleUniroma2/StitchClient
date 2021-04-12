@@ -1395,6 +1395,10 @@ function bootStitchAppClient(settings) {
         clnt.setSyncModels(settings["syncModels"]);
     }
 
+    if ("afterEachNavigation" in settings){
+      clnt.setAfterNavigationFunction(settings["afterEachNavigation"]);
+    }
+
     if ("afterAllInits" in settings) {
         window[settings["afterAllInits"]]();
     }
@@ -2478,6 +2482,9 @@ class StitchAppClient {
         // page to land on after a successfull login
         this.targetPageAfterLogin = "";
 
+        // function called after any navigation action
+        this.afterNavigationFunction = null;
+
         // used to dynamically resize some elements
         this.elementsRegisteredForDynamicResize = [];
 
@@ -2512,6 +2519,16 @@ class StitchAppClient {
 
     registerAppVersion(version) {
         this.version = version;
+    }
+
+    setAfterNavigationFunction(functionName){
+      this.afterNavigationFunction = functionName;
+    }
+
+    runAfterNavigation(){
+      if(!isNullOrUndefined(this.afterNavigationFunction)){
+        window[this.afterNavigationFunction]();
+      }
     }
 
     getServerInstance() {
@@ -2942,6 +2959,8 @@ class StitchAppClient {
 
         // handle resize specific logics once
         this.pageResizeHandle();
+
+        runAfterNavigation();
     }
 
     // refresh the current page based on url #-navigation
