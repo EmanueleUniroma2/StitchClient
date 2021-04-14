@@ -3598,12 +3598,12 @@ class StitchAppClient {
         return this.handleApiResult(await this.getServerInstance().logout(), null);
     }
 
-    async setDeveloperFlag(collection, mode) {
+    async setDeveloperFlag(mode) {
 
         if (this.toggleAPISpinner(true)) {
             return undefined;
         }
-        return this.handleApiResult(await this.getServerInstance().setDeveloperFlag(collection, mode), null);
+        return this.handleApiResult(await this.getServerInstance().setDeveloperFlag(lastInitedAppClient.userDataColletion, mode), null);
     }
     async patchSingleInCollection(collection, field) {
 
