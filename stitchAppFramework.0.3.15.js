@@ -1,5 +1,4 @@
 var lastInitedAppClient = null;
-var IsDeveloper = false;
 var singletonRegisteredEventListeners = [];
 
 
@@ -1856,14 +1855,20 @@ class StitchServerClient {
         return model;
     }
 
+    isDeveloper(){
+      let f = localStorage.getItem("__stitch_dev_flag");
+      if(!isNullOrUndefined(f)){
+        return f == "true";
+      }
+      return false;
+    }
 
     bootRemoteModel(user_data) {
 
         /* there are stats to update here */
         if (!isNullOrUndefined(user_data)) {
 
-            IsDeveloper = user_data["is_developer"];
-
+            localStorage.setItem("__stitch_dev_flag", user_data["is_developer"].toString());
             for (let i = 0; i < this.sync_models.length; i++) {
                 let name = this.sync_models[i];
                 let el = user_data[name];
@@ -1987,6 +1992,7 @@ class StitchServerClient {
                 }, {
                     upsert: true
                 }));
+                localStorage.setItem("__stitch_dev_flag", mode);
             } catch (e) {
                 result = e;
                 console.error("reference_to_mongo_db.setDeveloper", e);
