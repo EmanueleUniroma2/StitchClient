@@ -1855,14 +1855,6 @@ class StitchServerClient {
         return model;
     }
 
-    isDeveloper(){
-      let f = localStorage.getItem("__stitch_dev_flag");
-      if(!isNullOrUndefined(f)){
-        return f == "true";
-      }
-      return false;
-    }
-
     bootRemoteModel(user_data) {
 
         /* there are stats to update here */
@@ -2521,6 +2513,14 @@ class StitchAppClient {
             return;
         }
         this.server = new StitchServerClient(app_name, db_name)
+    }
+
+    isDeveloper(){
+      let f = localStorage.getItem("__stitch_dev_flag");
+      if(!isNullOrUndefined(f)){
+        return f == "true";
+      }
+      return false;
     }
 
     registerAppVersion(version) {
