@@ -2702,7 +2702,16 @@ class StitchAppClient {
         inner_dialog += "<br>";
 
         for (let i = 0; i < buttons.length; i++) {
-            inner_dialog += "<div class=\"stitch_modal_button\" id='stitch_dialog_button_" + i.toString() + "'>" + buttons[i] + "</div>\n";
+			
+			
+            let callback = callbacks.length > i ? callbacks[i] : "";
+            let callback_inline = "lastInitedAppClient.dialogDispose('" + buttons[i] + "','" + dialog_type + "');";
+
+            if (!isVoidString(callback)) {
+                callback_inline += " " + callback + ";"
+            }
+			
+            inner_dialog += "<div class=\"stitch_modal_button\" id='stitch_dialog_button_" + i.toString() + "' onclick=\""+callback_inline+"\">" + buttons[i] + "</div>\n";
         }
 
         inner_dialog += "</div>\n";
@@ -2711,23 +2720,11 @@ class StitchAppClient {
         inkdrop.appendChild(dialog);
         document.body.appendChild(inkdrop);
 
-        for (let i = 0; i < buttons.length; i++) {
-
-            let button = document.getElementById("stitch_dialog_button_" + i.toString());
-            let callback = callbacks.length > i ? callbacks[i] : "";
-            let callback_inline = "lastInitedAppClient.dialogDispose('" + buttons[i] + "','" + dialog_type + "');";
-
-            if (!isVoidString(callback)) {
-                callback_inline += " " + callback + ";"
-            }
-            button.setAttribute("onclick", callback_inline);
-        }
-
         if (!isNullOrUndefined(inner_node)) {
             document.getElementById("inner_node_section_stitch_dialog").appendChild(inner_node);
         }
 
-        setTimeout(this.fadeInDialog, 50);
+        setTimeout(this.fadeInDialog, 100);
 
         return dialog;
     }
