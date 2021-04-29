@@ -2731,8 +2731,6 @@ class StitchAppClient {
 
     dialogDispose(button_name, dialog_type) {
 
-        let dialog = document.getElementById("modal_ink_drop");
-
         if (dialog_type == "confirm") {
             this.lastDialogOutput = !(button_name.toLowerCase() == getTranslatedMessage("no") || button_name.toLowerCase() == getTranslatedMessage("cancel"));
         } else {
@@ -2744,7 +2742,14 @@ class StitchAppClient {
             this.lastDialogOutput = values;
         }
 
-        dialog.parentNode.removeChild(dialog);
+	
+		while(1){			
+			let dialog = document.getElementById("modal_ink_drop");
+			if(isNullOrUndefined(dialog){
+				return;
+			}
+			dialog.parentNode.removeChild(dialog);	
+		}
     }
 
     /* some dialog shortcuts*/
