@@ -2745,7 +2745,7 @@ class StitchAppClient {
 	
 		while(1){			
 			let dialog = document.getElementById("modal_ink_drop");
-			if(isNullOrUndefined(dialog){
+			if(isNullOrUndefined(dialog)){
 				return;
 			}
 			dialog.parentNode.removeChild(dialog);	
