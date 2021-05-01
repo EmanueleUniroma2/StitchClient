@@ -1402,6 +1402,10 @@ function bootStitchAppClient(settings) {
         window[settings["afterAllInits"]]();
     }
 
+	if ("serviceWorkerFile" in settings){
+		clnt.installServiceWorker(settings["serviceWorkerFile"]);
+	}
+
     clnt.boot();
 }
 
@@ -2514,6 +2518,23 @@ class StitchAppClient {
         }
         this.server = new StitchServerClient(app_name, db_name)
     }
+
+	installServiceWorker(serviceWorkerName){
+		if(window.location.href.indexOf("https")!=-1){
+			if ('serviceWorker' in navigator && window.navigator.userAgent.indexOf("MSIE ") <= 0) {
+				'use strict';
+				let registrations = await navigator.serviceWorker.getRegistrations();
+				if(registrations.length > 0){
+					for(let registration of registrations) {
+					  registration.update();
+					}
+				}
+				else{
+					navigator.serviceWorker.register("./"+serviceWorkerName);	
+				}
+			}
+		}
+	}
 
     isDeveloper(){
       let f = localStorage.getItem("__stitch_dev_flag");
