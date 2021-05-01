@@ -2621,18 +2621,17 @@ class StitchAppClient {
     }
 
     // search for a page by name key and return the content key
-    getPageDescByName(searched_name) {
+    getPageByName(searched_name) {
 
         for (let i = 0; i < this.appPages.length; i++) {
 
             let page = this.appPages[i];
             let name = page["name"];
-            let content = page["content"];
             let authRequired = page["requiresAuth"];
 
             // you can access a page if it does not require a login, or if you are logged in
             if (searched_name == name && (!authRequired || this.getServerInstance().isAuthenticated())) {
-                return content;
+                return page;
             }
         }
 
@@ -2702,15 +2701,15 @@ class StitchAppClient {
         inner_dialog += "<br>";
 
         for (let i = 0; i < buttons.length; i++) {
-			
-			
+
+
             let callback = callbacks.length > i ? callbacks[i] : "";
             let callback_inline = "lastInitedAppClient.dialogDispose('" + buttons[i] + "','" + dialog_type + "');";
 
             if (!isVoidString(callback)) {
                 callback_inline += " " + callback + ";"
             }
-			
+
             inner_dialog += "<div class=\"stitch_modal_button\" id='stitch_dialog_button_" + i.toString() + "' onclick=\""+callback_inline+"\">" + buttons[i] + "</div>\n";
         }
 
@@ -2742,13 +2741,13 @@ class StitchAppClient {
             this.lastDialogOutput = values;
         }
 
-	
-		while(1){			
+
+		while(1){
 			let dialog = document.getElementById("modal_ink_drop");
 			if(isNullOrUndefined(dialog)){
 				return;
 			}
-			dialog.parentNode.removeChild(dialog);	
+			dialog.parentNode.removeChild(dialog);
 		}
     }
 
@@ -2957,10 +2956,19 @@ class StitchAppClient {
 
         let page_no_args = page.split("?")[0];
 
-        let pageContent = this.getPageDescByName(page_no_args);
+        let page = this.getPageByName(page_no_args);
 
-        if (!isNullOrUndefined(pageContent)) {
+        if (!isNullOrUndefined(page)) {
+
+            let pageContent = page["content"];
+            let pageAfterInit = page["afterInit"];
+
             this.buildPageBase(pageContent);
+
+            if(!isNullOrUndefined(pageAfterInit)){
+              window[pageAfterInit]();
+            }
+
         } else {
             this.showLockedPage();
         }
