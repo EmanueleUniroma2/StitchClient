@@ -882,7 +882,7 @@ html{
 
 /* Specific generic styles */
 .title{
-  font-size: 2rem;
+  font-size: min(5vw,2rem);
   background-color: rgba(0,0,0,0.1);
   color: #2e4186;
   padding: 0.5rem;
