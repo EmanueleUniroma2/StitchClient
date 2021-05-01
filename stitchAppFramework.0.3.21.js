@@ -2956,12 +2956,12 @@ class StitchAppClient {
 
         let page_no_args = page.split("?")[0];
 
-        let page = this.getPageByName(page_no_args);
+        let pageObj = this.getPageByName(page_no_args);
 
-        if (!isNullOrUndefined(page)) {
+        if (!isNullOrUndefined(pageObj)) {
 
-            let pageContent = page["content"];
-            let pageAfterInit = page["afterInit"];
+            let pageContent = pageObj["content"];
+            let pageAfterInit = pageObj["afterInit"];
 
             this.buildPageBase(pageContent);
 
