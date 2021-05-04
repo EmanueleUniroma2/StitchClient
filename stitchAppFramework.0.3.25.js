@@ -105,7 +105,7 @@ const languagePack = {
         "proceed": "Procedi",
         "message_from_site": "Messaggio dal sito",
         "information": "Messaggio informativo",
-        "site_err_no_internet": "Non sei connesso a internet",
+        "site_err_no_internet": "Il server non è momentaneamente disponibile, oppure non sei connesso ad internet.",
         "site_err_occupied": "Il sito era momentaneamente occupato e non ha potuto gestire la richiesta. Fare un altro tentativo dovrebbe risolvere il problema.",
         "site_err_credentials": "Sono state fornite credenziali errate, oppure non esiste un account associato a queste credenziali.",
         "site_err_invalid_user": "L'utenza indicata non è autorizzata a registrarsi su questo sistema.",
