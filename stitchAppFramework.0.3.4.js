@@ -1397,10 +1397,6 @@ async function bootStitchAppClient(settings) {
     if ("afterEachNavigation" in settings){
       clnt.setAfterNavigationFunction(settings["afterEachNavigation"]);
     }
-
-    if ("afterAllInits" in settings) {
-        window[settings["afterAllInits"]]();
-    }
 	
 	if ("serviceWorkerFile" in settings){		
 		if(window.location.href.indexOf("https")!=-1){
@@ -1421,6 +1417,10 @@ async function bootStitchAppClient(settings) {
 	
 	if ("enableAutoLogin" in settings) {
         await clnt.autoLoginFullSequence();
+    }
+
+    if ("afterAllInits" in settings) {
+        window[settings["afterAllInits"]]();
     }
 
     clnt.boot();
