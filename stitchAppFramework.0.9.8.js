@@ -3855,7 +3855,7 @@ class StitchAppClient {
 
         let res = await this.tryLogin(email, password);
 
-        if (res != null) {
+        if (res == null) {
             showBreadCrumb(getTranslatedMessage("sync_data"));
             let obj = await this.handleApiResult(this.getServerInstance().fetchAndInitModelIfMissing(collection));
 
@@ -3865,7 +3865,9 @@ class StitchAppClient {
                 showBreadCrumb(getTranslatedMessage("err_sync_data"));
             }
         } else {
-            console.info("Login failed: " + (res.message || "unknown error"));
+			if(res != undefined){
+				console.info("Login failed: " + (res.message || "unknown error"));				
+			}
         }
 
         return res;
