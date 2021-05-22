@@ -1081,7 +1081,7 @@ html{
   opacity: 0.8;
 }
 .toolbar_user_menu{
-  position: absolute;  
+  position: fixed;  
   top: 0;
   z-index: 10;
   height: 100vh;
