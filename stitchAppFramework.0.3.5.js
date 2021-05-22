@@ -1450,11 +1450,21 @@ async function bootStitchAppClient(settings) {
 	}
 	
 	if ("enableAutoLogin" in settings) {
-        await clnt.autoLoginFullSequence();
+		if(settings["enableAutoLogin"]){
+			console.log("a");
+
+			await clnt.autoLoginFullSequence();		
+
+			console.log("b");
+		}
     }
 
     if ("afterAllInits" in settings) {
+		console.log("c");
+
         window[settings["afterAllInits"]]();
+		console.log("d");
+
     }
 
     clnt.boot();
