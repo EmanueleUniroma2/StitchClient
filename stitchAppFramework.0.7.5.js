@@ -1042,7 +1042,7 @@ html{
   z-index: 10;
   height: 100vh;
   right: 0;
-  width: min(80%,300px); 
+  width: 0; 
   overflow-y: hidden;
   transition: width 0.2s ease-out;
   background: white;
@@ -1673,7 +1673,7 @@ function closeMenu() {
 	let inkdrop = document.getElementById("toolbar_user_menu_menu_inkdrop");
 
     if (!isNullOrUndefined(menu) && !isNullOrUndefined(inkdrop)) {
-        menu.style.width = "0";
+        menu.style.width = "";
 		inkdrop.style.opacity = "0";
     }
 
@@ -1716,7 +1716,7 @@ function openAppToolbarMenu(voices) {
     
     setTimeout(function process() {
 		inkdrop.style.opacity = "1";
-        menu.style.width = "";
+        menu.style.width = "min(80%,300px)";
     }, 100);
 }
 
