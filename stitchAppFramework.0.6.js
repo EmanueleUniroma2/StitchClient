@@ -1662,14 +1662,16 @@ function closeMenu() {
     let menu = document.getElementById("toolbar_user_menu_id");
 	let inkdrop = document.getElementById("toolbar_user_menu_menu_inkdrop");
 
-    if (!isNullOrUndefined(menu)) {
+    if (!isNullOrUndefined(menu) && !isNullOrUndefined(inkdrop)) {
         menu.style.width = "0";
 		inkdrop.style.opacity = "0";
     }
 
 	setTimeout(function(){
-		document.body.removeChild(menu);
-		document.body.removeChild(inkdrop);
+		if (!isNullOrUndefined(menu) && !isNullOrUndefined(inkdrop)) {
+			document.body.removeChild(menu);
+			document.body.removeChild(inkdrop);
+		}
 	},200);
 
 }
@@ -1684,6 +1686,7 @@ function openAppToolbarMenu(voices) {
 	let inkdrop = document.createElement("div");
 	inkdrop.className = "toolbar_user_menu_inkdrop";
 	inkdrop.id = "toolbar_user_menu_menu_inkdrop"
+	inkdrop.onclick = closeMenu;
 	
 	menu = document.createElement("div");
 	menu.className = "toolbar_user_menu";
