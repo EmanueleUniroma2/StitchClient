@@ -1660,9 +1660,18 @@ function killBreadCrumb() {
 
 function closeMenu() {
     let menu = document.getElementById("toolbar_user_menu_id");
+	let inkdrop = document.getElementById("toolbar_user_menu_menu_inkdrop");
+
     if (!isNullOrUndefined(menu)) {
         menu.style.width = "0";
+		inkdrop.style.opacity = "0";
     }
+
+	setTimeout(function(){
+		document.body.removeChild(menu);
+		document.body.removeChild(inkdrop);
+	},200);
+
 }
 
 function openAppToolbarMenu(voices) {
@@ -1672,31 +1681,26 @@ function openAppToolbarMenu(voices) {
 
     let id = "toolbar_user_menu_id";
 
-    let old = document.getElementById(id);
-    if (isNullOrUndefined(old)) {
-		
-		let inkdrop = document.createElement("div");
-		inkdrop.className = "toolbar_user_menu_inkdrop";
-		inkdrop.id = "menu_inkdrop"
-		
-        menu = document.createElement("div");
-        menu.className = "toolbar_user_menu";
-        menu.id = id;
+	let inkdrop = document.createElement("div");
+	inkdrop.className = "toolbar_user_menu_inkdrop";
+	inkdrop.id = "toolbar_user_menu_menu_inkdrop"
+	
+	menu = document.createElement("div");
+	menu.className = "toolbar_user_menu";
+	menu.id = id;
 
-        for (let i = 0; i < voices.length; i++) {
-            let voice = voices[i];
-            let row = document.createElement("div");
-            row.className = "toolbar_user_menu_row";
-            row.innerHTML = voice[0];
-            row.setAttribute("onclick", voice[1]);
-            menu.appendChild(row);
-        }
+	for (let i = 0; i < voices.length; i++) {
+		let voice = voices[i];
+		let row = document.createElement("div");
+		row.className = "toolbar_user_menu_row";
+		row.innerHTML = voice[0];
+		row.setAttribute("onclick", voice[1]);
+		menu.appendChild(row);
+	}
 
-
-        document.body.appendChild(inkdrop);
-        document.body.appendChild(menu);
-    }
-
+	document.body.appendChild(inkdrop);
+	document.body.appendChild(menu);
+    
     setTimeout(function process() {
 		inkdrop.style.opacity = "1";
         menu.style.width = "";
