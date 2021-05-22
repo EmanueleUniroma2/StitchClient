@@ -21,7 +21,7 @@ function continueUserMenuUberSlide(e) {
 
   let delta = menuInitialTouchX - e.touches[0].clientX;
 
-  if(delta > 0){
+  if(delta < 0){
     menu.style.marginRight = (menuInitialSlideMargin-delta).toString()+"px";
   }
 }
