@@ -1130,9 +1130,10 @@ background: rgba(0,0,0,0.1);
 background: rgba(0,0,0,0.2);
 }
 .topbar_specification{
-  padding: 1rem;
-  background: rgba(0,0,0,0.1);
-  border: 1px solid rgba(0,0,0,0.2);
+    margin: 1em;
+    padding: 1rem;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(0,0,0,0.2);
 }
 .toolbar_label{
   display: inline-block;
