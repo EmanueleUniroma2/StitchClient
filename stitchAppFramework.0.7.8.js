@@ -1725,8 +1725,8 @@ function closeMenu() {
 
 	setTimeout(function(){
 		if (!isNullOrUndefined(menu) && !isNullOrUndefined(inkdrop)) {
-			document.body.removeChild(menu);
-			document.body.removeChild(inkdrop);
+			inkdrop.parentNode.removeChild(inkdrop);
+			menu.parentNode.removeChild(menu);
 		}
 	},200);
 
