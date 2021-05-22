@@ -722,7 +722,7 @@ var StitchDefaultPages = [{
                     "node_type": "div",
                     "node_tags": [
                         [
-                            "className",
+                            "title",
                             "topbar_specification"
                         ],
                         [
