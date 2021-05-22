@@ -1047,6 +1047,15 @@ html{
   transition: width 0.2s ease-out;
   background: white;
 }
+.toolbar_user_menu_inkdrop{
+	position: fixed;
+	top:0;
+	left:0;
+	width:100vw;
+	height:100vh;
+	background: rgba(0,0,0,0.8);
+	opacity: 0;
+}
 .toolbar_user_menu_row{
   padding: 0.5rem 1rem;
   border-top: 1px solid rgba(0,0,0,0.2);
