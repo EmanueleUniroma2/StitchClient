@@ -2397,14 +2397,16 @@ class StitchServerClient {
             let obj = JSON.parse(stored);
             this.email = obj.email;
             this.password = obj.password;
-            return true;
+            return obj;
         }
 
         // be sure to have clean cache if __stitch.creds are missing
         this.killCachedSessionAndCredentials();
 
-        return false;
+        return null;
     }
+
+	
 
     // store stitch credentials
     storeCredentials(email, password) {
@@ -3740,10 +3742,12 @@ class StitchAppClient {
 
         let res = null;
 
-        /* there are stored credentials */
-        if (this.getServerInstance().loadStoredCredentials()) {
+		let creds = this.getServerInstance().loadStoredCredentials();
 
-            let res = await this.tryLogin(email, password);
+        /* there are stored credentials */
+        if (!isNullOrUndefined(creds)) {
+
+            let res = await this.tryLogin(creds.email, creds.password);
 
             if (isNullOrUndefined(res)) {
                 showBreadCrumb(getTranslatedMessage("sync_data"));
