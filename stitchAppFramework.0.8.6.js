@@ -1440,6 +1440,7 @@ function validateSettings(settings) {
     return true;
 }
 
+
 async function bootStitchAppClient(settings) {
 
     if (!validateSettings(settings)) {
@@ -2648,6 +2649,22 @@ class StitchAppClient {
         }
         this.server = new StitchServerClient(app_name, db_name)
     }
+	
+	forceUpdateApp(){
+		if(window.location.href.indexOf("https")!=-1){
+		  if ('serviceWorker' in navigator && window.navigator.userAgent.indexOf("MSIE ") <= 0) {
+			'use strict';
+			toggleAPISpinner(true);
+			navigator.serviceWorker.getRegistrations().then(function(registrations) {
+				for(let i = 0; i < registrations.length; i++) {
+						registration[i].unregister();
+				}}).catch(function(err) {
+					console.log('Service Worker deletion failed: ', err);
+				});
+			setTimeout(function(){location.reload();},2000);
+		  }
+		}
+	}
 
     isDeveloper(){
       let f = localStorage.getItem("__stitch_dev_flag");
