@@ -1495,7 +1495,9 @@ function singletonAddEventListener(target, eventName, callBack, flag) {
 }
 
 function handleGlobalClick() {
-    closeMenu();
+	if(event.target.id != "toolbar_user_menu_id"){
+		closeMenu();		
+	}
 }
 
 function pageHasResized() {
@@ -1663,7 +1665,7 @@ function closeMenu() {
     }
 }
 
-function openAppToolbarMenu(targetNode, voices) {
+function openAppToolbarMenu(voices) {
 
     // close it if open
     closeMenu();
@@ -1672,6 +1674,11 @@ function openAppToolbarMenu(targetNode, voices) {
 
     let old = document.getElementById(id);
     if (isNullOrUndefined(old)) {
+		
+		let inkdrop = document.createElement("div");
+		inkdrop.className = "toolbar_user_menu_inkdrop";
+		inkdrop.id = "menu_inkdrop"
+		
         menu = document.createElement("div");
         menu.className = "toolbar_user_menu";
         menu.id = id;
@@ -1685,10 +1692,13 @@ function openAppToolbarMenu(targetNode, voices) {
             menu.appendChild(row);
         }
 
-        targetNode.appendChild(menu);
+
+        document.body.appendChild(inkdrop);
+        document.body.appendChild(menu);
     }
 
     setTimeout(function process() {
+		inkdrop.style.opacity = "1";
         menu.style.width = "";
     }, 100);
 }
