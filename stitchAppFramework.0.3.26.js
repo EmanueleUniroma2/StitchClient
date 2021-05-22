@@ -1401,7 +1401,7 @@ async function bootStitchAppClient(settings) {
     if ("afterAllInits" in settings) {
         window[settings["afterAllInits"]]();
     }
-
+	
 	if ("serviceWorkerFile" in settings){		
 		if(window.location.href.indexOf("https")!=-1){
 			if ('serviceWorker' in navigator && window.navigator.userAgent.indexOf("MSIE ") <= 0) {
@@ -1418,6 +1418,10 @@ async function bootStitchAppClient(settings) {
 			}
 		}
 	}
+	
+	if ("enableAutoLogin" in settings) {
+        await clnt.autoLoginFullSequence();
+    }
 
     clnt.boot();
 }
@@ -3725,7 +3729,9 @@ class StitchAppClient {
 
       App should check if null is returned and go to login page if happens.
     */
-    async autoLoginFullSequence(collection) {
+    async autoLoginFullSequence() {
+
+		let collection = this.userDataColletion;
 
         if (isNullOrUndefined(collection)) {
             this.openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
