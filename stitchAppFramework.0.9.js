@@ -3101,6 +3101,10 @@ class StitchAppClient {
     // inner callback for page navigation
     pageNavigateInner() {
 
+		document.ontouchstart = null;
+		document.ontouchmove = null; 
+		document.ontouchend = null;
+
         this.elementsRegisteredForDynamicResize = [];
 
         let page = this.getUrlSection(1);
