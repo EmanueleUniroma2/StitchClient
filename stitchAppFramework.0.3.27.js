@@ -3741,7 +3741,7 @@ class StitchAppClient {
         let res = null;
 
         /* there are stored credentials */
-        if (this.loadStoredCredentials()) {
+        if (this.getServerInstance().loadStoredCredentials()) {
 
             let res = await this.tryLogin(email, password);
 
