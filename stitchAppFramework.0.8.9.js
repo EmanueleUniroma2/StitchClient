@@ -1103,7 +1103,7 @@ html{
 	transition: opacity 0.2s ease-out;
 }
 .toolbar_user_menu_row{
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   border-top: 1px solid rgba(0,0,0,0.2);
   background: rgba(0,0,0,0.05);
   margin: 0.2em;
