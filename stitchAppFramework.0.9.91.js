@@ -86,7 +86,7 @@ async function performDefaultLogin() {
     }
     let email = getInputValue("login_email").trim();
     let password = getInputValue("login_password");
-    if (await lastInitedAppClient.fullLoginFetchSequence(email, password, lastInitedAppClient.userDataColletion) == null) {
+    if (await lastInitedAppClient.fullLoginFetchSequence(email, password) == null) {
         navigate(lastInitedAppClient.targetPageAfterLogin);
     }
 }
@@ -3846,8 +3846,10 @@ class StitchAppClient {
       else will handle the error and return null.
       App should check if null is returned and go to login page if happens.
     */
-    async fullLoginFetchSequence(email, password, collection) {
+    async fullLoginFetchSequence(email, password) {
 
+		let collection = this.userDataColletion;
+	
         if (isNullOrUndefined(collection)) {
             this.openAlertDialog(getTranslatedMessage("no_userdata_collection_defined"));
             return "errore";
