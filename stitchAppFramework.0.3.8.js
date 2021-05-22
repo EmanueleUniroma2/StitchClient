@@ -1037,20 +1037,21 @@ html{
   opacity: 0.8;
 }
 .toolbar_user_menu{
-  position: absolute;
-  margin-top: 1.1rem;
+  position: absolute;  
+  top: 0;
   z-index: 10;
-  right: 2rem;
-  min-width: 10em;
+  height: 100vh;
+  right: 0;
+  width: min(80%,300px); 
   overflow-y: hidden;
-  max-height: 0;
-  transition: max-height 2s ease-out;
+  transition: width 0.2s ease-out;
   background: white;
 }
 .toolbar_user_menu_row{
   padding: 0.5rem 1rem;
   border-top: 1px solid rgba(0,0,0,0.2);
   background: rgba(0,0,0,0.05);
+  margin: 0.2em;
 }
 .toolbar_user_menu_row:hover{
 background: rgba(0,0,0,0.1);
@@ -1658,7 +1659,7 @@ function killBreadCrumb() {
 function closeMenu() {
     let menu = document.getElementById("toolbar_user_menu_id");
     if (!isNullOrUndefined(menu)) {
-        menu.style.maxHeight = "";
+        menu.style.width = "0";
     }
 }
 
@@ -1688,7 +1689,7 @@ function openAppToolbarMenu(targetNode, voices) {
     }
 
     setTimeout(function process() {
-        menu.style.maxHeight = "60vh";
+        menu.style.width = "";
     }, 100);
 }
 
