@@ -1055,6 +1055,7 @@ html{
 	height:100vh;
 	background: rgba(0,0,0,0.8);
 	opacity: 0;
+	transition: opacity 0.2s ease-out;
 }
 .toolbar_user_menu_row{
   padding: 0.5rem 1rem;
