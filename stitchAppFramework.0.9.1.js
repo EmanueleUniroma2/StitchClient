@@ -3838,7 +3838,7 @@ class StitchAppClient {
 
         let res = await this.tryLogin(email, password);
 
-        if (isNullOrUndefined(res)) {
+        if (res != null) {
             showBreadCrumb(getTranslatedMessage("sync_data"));
             let obj = await this.handleApiResult(this.getServerInstance().fetchAndInitModelIfMissing(collection));
 
