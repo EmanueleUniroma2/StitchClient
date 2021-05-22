@@ -21,8 +21,6 @@ function continueUserMenuUberSlide(e) {
 
   let delta = menuInitialTouchX - e.touches[0].clientX;
 
-  console.log(menuInitialSlideMargin - delta, delta);
-
   if(delta > 0){
     menu.style.marginRight = (menuInitialSlideMargin-delta).toString()+"px";
   }
@@ -38,9 +36,10 @@ function endUserMenuUberSlide(e){
   let menu = document.getElementById("toolbar_user_menu_id");
   document.ontouchmove = null;
   document.ontouchend = null;
-  if(menu.style.marginLeft.split("px")[0] < -50){
+  
+  if(menu.style.marginRight.split("px")[0] < -50){
     document.ontouchstart = null;
-    shift_left_pannel();
+    closeMenu();
   }
   else{
     menu.style.marginLeft = "0px";
