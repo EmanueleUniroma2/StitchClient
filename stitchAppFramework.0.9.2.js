@@ -232,6 +232,7 @@ const languagePack = {
         "reset_password_title": "Reimposta la tua password",
         "password_repeat": "Ripeti password",
         "reset": "REIMPOSTA",
+        "register_cannot_access_title": "Reimposta la password"
         "register_cannot_access": "Se non riesci ad accedere con il tuo account, inserisci la tua email. Se esiste un account registrato con quella email, ti invieremo una email con il link con cui potrai reimpostare la password."
     },
     "sp": {
@@ -414,7 +415,7 @@ var StitchDefaultPages = [{
                     "node_tags": [
                         [
                             "className",
-                            "topbar_specification"
+                            "title"
                         ],
                         [
                             "innerHTML",
@@ -582,7 +583,7 @@ var StitchDefaultPages = [{
                     "node_tags": [
                         [
                             "className",
-                            "topbar_specification"
+                            "title"
                         ],
                         [
                             "innerHTML",
@@ -621,7 +622,21 @@ var StitchDefaultPages = [{
                     "form_page"
                 ]
             ],
-            "node_childs": [{
+            "node_childs": [
+			{
+                    "node_type": "div",
+                    "node_tags": [
+                        [
+                            "className",
+                            "title"
+                        ],
+                        [
+                            "innerHTML",
+                            getTranslatedMessage("register_cannot_access_title")
+                        ]
+                    ]
+			},
+			{
                     "node_type": "div",
                     "node_tags": [
                         [
