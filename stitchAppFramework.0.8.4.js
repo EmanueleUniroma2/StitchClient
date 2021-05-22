@@ -37,7 +37,7 @@ function endUserMenuUberSlide(e){
   document.ontouchmove = null;
   document.ontouchend = null;
   
-  if(menu.style.marginRight.split("px")[0] > 50){
+  if(menu.style.marginRight.split("px")[0] < -50){
     document.ontouchstart = null;
     closeMenu();
   }
