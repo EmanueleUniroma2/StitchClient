@@ -3755,33 +3755,33 @@ class StitchAppClient {
 
         if (isVoidString(email)) {
             this.openAlertDialog(getTranslatedMessage("email_cannot_be_empty"));
-            return undefined;
+            return {"message": "bad input"};
         }
 
         if (!validateEmail(email)) {
             this.openAlertDialog(getTranslatedMessage("email_must_be_valid"));
-            return undefined;
+            return {"message": "bad input"};
         }
 
 
         if (isVoidString(password)) {
             this.openAlertDialog(getTranslatedMessage("password_cannot_be_empty"));
-            return undefined;
+            return {"message": "bad input"};
         }
 
         if (isVoidString(password)) {
             this.openAlertDialog(getTranslatedMessage("password_cannot_be_empty"));
-            return undefined;
+            return {"message": "bad input"};
         }
 
         if (this.toggleAPISpinner(true)) {
-            return undefined;
+            return {"message": "bad input"};
         }
         return this.handleApiResult(await this.getServerInstance().login(email.toLowerCase(), password), null);
     }
     async logout() {
         if (this.toggleAPISpinner(true)) {
-            return undefined;
+            return {"message": "bad input"};
         }
         return this.handleApiResult(await this.getServerInstance().logout(), null);
     }
@@ -3789,21 +3789,21 @@ class StitchAppClient {
     async setDeveloperFlag(mode) {
 
         if (this.toggleAPISpinner(true)) {
-            return undefined;
+            return {"message": "bad input"};
         }
         return this.handleApiResult(await this.getServerInstance().setDeveloperFlag(lastInitedAppClient.userDataColletion, mode), null);
     }
     async patchSingleInCollection(collection, field) {
 
         if (this.toggleAPISpinner(true)) {
-            return undefined;
+            return {"message": "bad input"};
         }
         return this.handleApiResult(await this.getServerInstance().patchSingleInCollection(collection, field), null);
     }
     async find(collection, rule) {
 
         if (this.toggleAPISpinner(true)) {
-            return undefined;
+            return {"message": "bad input"};
         }
         return this.handleApiResult(await this.getServerInstance().findInCollection(collection, rule), null);
     }
@@ -3811,7 +3811,7 @@ class StitchAppClient {
     async fetch(collection) {
 
         if (this.toggleAPISpinner(true)) {
-            return undefined;
+            return {"message": "bad input"};
         }
         return this.handleApiResult(await this.getServerInstance().fetch(collection), null);
     }
@@ -3819,7 +3819,7 @@ class StitchAppClient {
     async selectOneRandom(collection) {
 
         if (this.toggleAPISpinner(true)) {
-            return undefined;
+            return {"message": "bad input"};
         }
         return this.handleApiResult(await this.getServerInstance().selectOneRandom(collection), null);
     }
@@ -3828,7 +3828,7 @@ class StitchAppClient {
     async selectStar(collection) {
 
         if (this.toggleAPISpinner(true)) {
-            return undefined;
+            return {"message": "bad input"};
         }
         return this.handleApiResult(await this.getServerInstance().selectStar(collection), null);
     }
@@ -3836,7 +3836,7 @@ class StitchAppClient {
     async patchInCollection(collection, data_list, upsertFlag) {
 
         if (this.toggleAPISpinner(true)) {
-            return undefined;
+            return {"message": "bad input"};
         }
         return this.handleApiResult(await this.getServerInstance().patchInCollection(collection, data_list, upsertFlag), null);
     }
@@ -3857,7 +3857,7 @@ class StitchAppClient {
 
         let res = await this.tryLogin(email, password);
 
-        if (res == null) {
+        if (isNullOrUndefined(res)) {
             showBreadCrumb(getTranslatedMessage("sync_data"));
             let obj = await this.handleApiResult(this.getServerInstance().fetchAndInitModelIfMissing(collection));
 
@@ -3867,9 +3867,7 @@ class StitchAppClient {
                 showBreadCrumb(getTranslatedMessage("err_sync_data"));
             }
         } else {
-			if(res != undefined){
-				console.info("Login failed: " + (res.message || "unknown error"));				
-			}
+			console.info("Login failed: " + (res.message || "unknown error"));				
         }
 
         return res;
