@@ -722,8 +722,8 @@ var StitchDefaultPages = [{
                     "node_type": "div",
                     "node_tags": [
                         [
-                            "title",
-                            "topbar_specification"
+                            "className",
+                            "title"
                         ],
                         [
                             "innerHTML",
@@ -980,6 +980,7 @@ html{
   color: #2e4186;
   padding: 0.5rem;
   border: 1px solid rgba(0,0,0,0.2);
+  margin-bottom: 2em;
 }
 .subtitle{
   background: rgba(255,255,255,0.4);
