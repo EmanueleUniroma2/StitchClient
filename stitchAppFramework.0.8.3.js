@@ -19,9 +19,9 @@ function continueUserMenuUberSlide(e) {
   let menu = document.getElementById("toolbar_user_menu_id");
   e = e || window.event;
 
-  let delta = menuInitialTouchX - e.touches[0].clientX;
+  let delta = e.touches[0].clientX - menuInitialTouchX;
 
-  if(delta < 0){
+  if(delta > 0){
     menu.style.marginRight = (menuInitialSlideMargin-delta).toString()+"px";
   }
 }
@@ -37,7 +37,7 @@ function endUserMenuUberSlide(e){
   document.ontouchmove = null;
   document.ontouchend = null;
   
-  if(menu.style.marginRight.split("px")[0] < -50){
+  if(menu.style.marginRight.split("px")[0] > 50){
     document.ontouchstart = null;
     closeMenu();
   }
