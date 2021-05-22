@@ -1742,10 +1742,10 @@ function closeMenu() {
 
 	setTimeout(function(){
 		if (!isNullOrUndefined(menu) && !isNullOrUndefined(inkdrop)) {
-			inkdrop.parentNode.removeChild(inkdrop);
-			menu.parentNode.removeChild(menu);
+			document.body.removeChild(inkdrop);
+			document.body.removeChild(menu);
 		}
-	},200);
+	},300);
 
 }
 
@@ -1758,7 +1758,7 @@ function openAppToolbarMenu(voices) {
 
 	let inkdrop = document.createElement("div");
 	inkdrop.className = "toolbar_user_menu_inkdrop";
-	inkdrop.id = "toolbar_user_menu_menu_inkdrop"
+	inkdrop.id = "toolbar_user_menu_menu_inkdrop";
 	inkdrop.onclick = closeMenu;
 	
 	menu = document.createElement("div");
