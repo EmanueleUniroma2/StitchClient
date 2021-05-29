@@ -240,6 +240,7 @@ const languagePack = {
         "reset_password_title": "Reimposta la tua password",
         "password_repeat": "Ripeti password",
         "reset": "REIMPOSTA",
+		"cant_update_while_offline": "Non puoi aggiornare l'App quando non sei connesso a internet.",
         "register_cannot_access_title": "Reimposta la password",
         "register_cannot_access": "Se non riesci ad accedere con il tuo account, inserisci la tua email. Se esiste un account registrato con quella email, ti invieremo una email con il link con cui potrai reimpostare la password."
     },
@@ -2676,6 +2677,12 @@ class StitchAppClient {
     }
 	
 	async forceUpdateApp(){
+		
+		if(!window.navigator.onLine){
+			this.openAlertDialog(getTranslatedMessage("cant_update_while_offline"));
+			return;
+		}
+
 		if(window.location.href.indexOf("https")!=-1){
 		  if ('serviceWorker' in navigator && window.navigator.userAgent.indexOf("MSIE ") <= 0) {
 			'use strict';
