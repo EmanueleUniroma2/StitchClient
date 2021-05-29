@@ -1,3 +1,11 @@
+
+
+// if offline becomes online-> refresh app
+function updateOnlineStatus(){
+	location.reload();
+}
+window.addEventListener('online',  updateOnlineStatus);
+
 var lastInitedAppClient = null;
 var singletonRegisteredEventListeners = [];
 
@@ -2672,13 +2680,16 @@ class StitchAppClient {
 		  if ('serviceWorker' in navigator && window.navigator.userAgent.indexOf("MSIE ") <= 0) {
 			'use strict';
 			this.toggleAPISpinner(true);
-			navigator.serviceWorker.getRegistrations().then(function(registrations) {
-				for(let i = 0; i < registrations.length; i++) {
-						registration[i].unregister();
-				}}).catch(function(err) {
-					console.log('Service Worker deletion failed: ', err);
-				});
-			setTimeout(function(){location.reload();},2000);
+
+		    let registrations = await navigator.serviceWorker.getRegistrations();
+			let unregisterPromises = registrations.map(registration => registration.unregister());
+
+			let allCaches = await caches.keys();
+			let cacheDeletionPromises = allCaches.map(cache => caches.delete(cache));
+
+			await Promise.all([...unregisterPromises, ...cacheDeletionPromises]);
+
+			location.reload();
 		  }
 		}
 	}
