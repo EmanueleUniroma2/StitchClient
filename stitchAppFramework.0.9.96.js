@@ -2675,7 +2675,7 @@ class StitchAppClient {
         this.server = new StitchServerClient(app_name, db_name)
     }
 	
-	forceUpdateApp(){
+	async forceUpdateApp(){
 		if(window.location.href.indexOf("https")!=-1){
 		  if ('serviceWorker' in navigator && window.navigator.userAgent.indexOf("MSIE ") <= 0) {
 			'use strict';
