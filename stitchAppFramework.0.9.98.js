@@ -104,7 +104,7 @@ async function performDefaultLogout() {
         return;
     }
     if (await lastInitedAppClient.logout() == null) {
-        navigate('login');
+        navigate(lastInitedAppClient.appPages[0]["name"]);
     }
 }
 
@@ -3910,7 +3910,7 @@ class StitchAppClient {
         }
 
         let res = null;
-
+		let error_detected = false;
 		let creds = this.getServerInstance().loadStoredCredentials();
 
         /* there are stored credentials */
@@ -3925,15 +3925,23 @@ class StitchAppClient {
                 if (obj != null) {
                     this.getServerInstance().bootRemoteModel(obj[0]);
                 } else {
+					error_detected = true;
                     showBreadCrumb(getTranslatedMessage("err_sync_data"));
                 }
             } else {
                 console.info("Login failed: " + (res.message || "unknown error"));
+				error_detected = true;
             }
 
         } else {
             console.info("There are no user creds stored. Cannot auto-login.");
+			error_detected = true;
         }
+		
+		if(error_detected){
+			await this.logout();
+			navigate(this.appPages[0]["name"]);
+		}
 
         return res;
     }
